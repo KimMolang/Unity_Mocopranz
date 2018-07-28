@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Controller : MonoBehaviour {
+public class CharacterController : MonoBehaviour {
 
     [Header("Ratating And Moving")]
     [SerializeField] [Range(1.0f, 10.0f)] private float mouseSensitivity = 8.0f;
@@ -70,11 +70,8 @@ public class Controller : MonoBehaviour {
             moveSpeed = moveSpeed_side;
         }
 
-        //Debug.Log(moveSpeed);
-
 
         Vector3 movement = (transform.forward * v) + (transform.right * h);
-        Debug.Log(transform.forward);
         movement = movement.normalized * moveSpeed * Time.fixedDeltaTime;
 
         transform.position += movement;

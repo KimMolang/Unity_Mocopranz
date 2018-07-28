@@ -53,7 +53,10 @@
   <ItemGroup>
      <Compile Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Scripts\CameraController.cs" />
      <Compile Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Scripts\IdleChanger.cs" />
-     <Compile Include="Assets\Script\Component\Controller.cs" />
+     <Compile Include="Assets\Script\Component\CharacterController.cs" />
+     <Compile Include="Assets\Script\Component\CharacterState.cs" />
+     <Compile Include="Assets\Script\Component\FSMBase.cs" />
+     <Compile Include="Assets\Script\Component\FSMPlayer.cs" />
      <Compile Include="Assets\Script\Mgr\ObjectMgr.cs" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
