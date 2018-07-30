@@ -28,28 +28,18 @@ public class CharacterController : MonoBehaviour {
     }
 
 
-    private const float MAX_DIR_X = 70.0f;
-    private const float MIN_DIR_X = -70.0f;
-
     Vector3 curRatationRadian = new Vector3(0.0f, 0.0f, 0.0f);
 
     private void UpdateRotation()
     {
-        
-
         float fHorizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
         float fVerticalRotation = -1 * (Input.GetAxis("Mouse Y") * mouseSensitivity);
 
         curRatationRadian.y += fHorizontalRotation * turnSpeed * Time.fixedDeltaTime;
-        curRatationRadian.x += 0;//fVerticalRotation * m_fTurnSpeed * Time.smoothDeltaTime; // (test)
 
-        if (curRatationRadian.x > MAX_DIR_X)
-            curRatationRadian.x = MAX_DIR_X;
-        else if (curRatationRadian.x < MIN_DIR_X)
-            curRatationRadian.x = MIN_DIR_X;
 
         transform.rotation = Quaternion.Euler
-            (transform.rotation.x + curRatationRadian.x
+            ( 0.0f
             , transform.rotation.y + curRatationRadian.y
             , 0.0f);
     }

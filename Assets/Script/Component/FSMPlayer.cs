@@ -21,17 +21,17 @@ public class FSMPlayer : FSMBase
 
     protected void Update()
     {
-        if (CHState == CharacterState.Idle
-            && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
-            || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)) )
-        {
-            SetState(CharacterState.Run);
-        }
+        //if (CHState == CharacterState.Idle
+        //    && (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
+        //    || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)) )
+        //{
+        //    SetState(CharacterState.Run);
+        //}
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) )
-        {
-            SetState(CharacterState.Attack);
-        }
+        //if (Input.GetKeyDown(KeyCode.Mouse0) )
+        //{
+        //    SetState(CharacterState.Attack);
+        //}
     }
 
     protected override IEnumerator Idle()
@@ -48,11 +48,11 @@ public class FSMPlayer : FSMBase
         {
             yield return null;
 
-            if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
-                || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)))
-            {
-                SetState(CharacterState.Idle);
-            }
+            //if (!(Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)
+            //    || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.W)))
+            //{
+            //    SetState(CharacterState.Idle);
+            //}
 
         } while (!isNewState);
     }
@@ -63,8 +63,8 @@ public class FSMPlayer : FSMBase
         {
             yield return null;
 
-            // (수정) 어택박스 생성하고 사라지면 해제
-            SetState(CharacterState.Idle);
+            //// (수정) 어택박스 생성하고 사라지면 해제
+            //SetState(CharacterState.Idle);
         } while (!isNewState);
     }
 }
