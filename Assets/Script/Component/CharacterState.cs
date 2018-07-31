@@ -1,6 +1,43 @@
-﻿public enum CharacterState
+﻿
+public enum CharacterState
 {
     Idle,
-    Run,
+    Moving,
+
     Attack,
+    Damaged,
+
+    Unbeatable, // 무적
+
+    Die
+}
+
+public enum CharacterAnimationState
+{
+    Idle,
+    Idle_NotingInput,
+
+    Moving_F,
+    Moving_B,
+    Moving_L,
+    Moving_R,
+
+    Moving_FL,
+    Moving_FR,
+    Moving_BL,
+    Moving_BR,
+
+    Attack_ML,
+    Attack_MR,
+    Attack_Q,
+    Attack_E,
+    Attack_Shift,
+    Attack_Ctrl,
+    Attack_Space,
+
+    Stiffen,    // 경직
+    //NnockBack,
+    Down,
+
+    Die
 }

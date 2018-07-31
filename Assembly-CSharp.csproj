@@ -57,6 +57,7 @@
      <Compile Include="Assets\Script\Component\CharacterState.cs" />
      <Compile Include="Assets\Script\Component\FSMBase.cs" />
      <Compile Include="Assets\Script\Component\FSMPlayer.cs" />
+     <Compile Include="Assets\Script\Component\Skill\Skill_MeleeBase.cs" />
      <Compile Include="Assets\Script\Mgr\ObjectMgr.cs" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />

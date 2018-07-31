@@ -23,10 +23,21 @@ public class CharacterController : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        CheckKey();
+
         UpdateRotation();
         UpdateMoving();
     }
 
+
+    private void CheckKey()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Skill_Melee test = new Skill_Melee();
+            test.SetOwnCharacter(transform.gameObject);
+        }
+    }
 
     Vector3 curRatationRadian = new Vector3(0.0f, 0.0f, 0.0f);
 
