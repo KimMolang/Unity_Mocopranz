@@ -58,8 +58,10 @@
      <Compile Include="Assets\Script\Component\CommonObject\AttackBox.cs" />
      <Compile Include="Assets\Script\Component\FSMBase.cs" />
      <Compile Include="Assets\Script\Component\FSMPlayer.cs" />
+     <Compile Include="Assets\Script\Component\Skill\Skill.cs" />
      <Compile Include="Assets\Script\Component\Skill\Skill_MeleeBase.cs" />
      <Compile Include="Assets\Script\Mgr\ObjectMgr.cs" />
+     <Compile Include="Assets\Script\System\CSVRead.cs" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_eye.shader" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_fuku.shader" />
      <None Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Models\UnityChanShader\Shader\Unitychan_chara_fuku_ds.shader" />

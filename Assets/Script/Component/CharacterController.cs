@@ -35,13 +35,7 @@ public class CharacterController : MonoBehaviour {
         // test
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            GameObject bin
-                = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.Bin]);
-
-            // 디파인으로 빼면 될 듯
-            Skill_Melee test = bin.AddComponent<Skill_Melee>();
-            //Skill_Melee test = new Skill_Melee();
-            test.SetOwnCharacter(transform.gameObject);
+            ObjectMgr.CreateSkill("Skill_MeleeBase", this.gameObject);
         }
     }
 
@@ -64,8 +58,6 @@ public class CharacterController : MonoBehaviour {
 
     private void UpdateMoving()
     {
-        //Debug.Log("!!");
-
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
