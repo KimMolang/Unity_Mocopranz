@@ -55,6 +55,7 @@
      <Compile Include="Assets\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Scripts\IdleChanger.cs" />
      <Compile Include="Assets\Script\Component\CharacterController.cs" />
      <Compile Include="Assets\Script\Component\CharacterState.cs" />
+     <Compile Include="Assets\Script\Component\CommonObject\AttackBox.cs" />
      <Compile Include="Assets\Script\Component\FSMBase.cs" />
      <Compile Include="Assets\Script\Component\FSMPlayer.cs" />
      <Compile Include="Assets\Script\Component\Skill\Skill_MeleeBase.cs" />

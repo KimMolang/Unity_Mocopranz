@@ -6,6 +6,7 @@ public class ObjectMgr : MonoBehaviour {
 
     public enum CommonObjectType
     {
+        Bin,
         AttackBox,
         MAX
     }
@@ -41,6 +42,9 @@ public class ObjectMgr : MonoBehaviour {
     void Awake()
     {
         commonObjectList = new GameObject[(int)CommonObjectType.MAX];
+
+        commonObjectList[(int)CommonObjectType.Bin]
+                = (GameObject)Resources.Load("Prefab/Bin");
         commonObjectList[(int)CommonObjectType.AttackBox]
                 = (GameObject)Resources.Load("Prefab/AttackBox");
 

@@ -32,9 +32,15 @@ public class CharacterController : MonoBehaviour {
 
     private void CheckKey()
     {
+        // test
         if(Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Skill_Melee test = new Skill_Melee();
+            GameObject bin
+                = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.Bin]);
+
+            // 디파인으로 빼면 될 듯
+            Skill_Melee test = bin.AddComponent<Skill_Melee>();
+            //Skill_Melee test = new Skill_Melee();
             test.SetOwnCharacter(transform.gameObject);
         }
     }
@@ -44,7 +50,8 @@ public class CharacterController : MonoBehaviour {
     private void UpdateRotation()
     {
         float fHorizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float fVerticalRotation = -1 * (Input.GetAxis("Mouse Y") * mouseSensitivity);
+        //float fVerticalRotation = -1 * (Input.GetAxis("Mouse Y") * mouseSensitivity);
+        // 이건 UI에 사용하자
 
         curRatationRadian.y += fHorizontalRotation * turnSpeed * Time.fixedDeltaTime;
 

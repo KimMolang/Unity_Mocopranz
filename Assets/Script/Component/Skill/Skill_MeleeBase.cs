@@ -91,6 +91,8 @@ public class Skill_Melee : MonoBehaviour {
 
         AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
 
+        Debug.Log(timer);
+
         // (수정)
         if ( timer >= attacInfo.nextInputWatingTime )
         {
@@ -100,19 +102,32 @@ public class Skill_Melee : MonoBehaviour {
             ++curContinuousAttackCnt;
         }
 
+        if (curContinuousAttackCnt >= continuousAttackNum)
+            Destroy(this.gameObject); // Destroy(bin);
     }
 
     private GameObject CreateAttackBox(AttackInfo _attackInfo)
     {
-        if (_attackInfo.owner == null)
-            return null;
+        //if (_attackInfo.owner == null)
+        //    return null;
 
         GameObject attackBox
             = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.AttackBox]);
 
-        attackBox.transform.position = _attackInfo.attackBox.offset;
-        attackBox.transform.rotation = _attackInfo.owner.transform.rotation;
-        attackBox.transform.position += _attackInfo.owner.transform.position;
+        attackBox.GetComponent<AttackBox>().aliveTime = _attackInfo.attackBox.aliveTime;
+
+        //attackBox.transform.position = _attackInfo.attackBox.offset;
+        attackBox.transform.rotation = ownCharacter.transform.rotation;
+        attackBox.transform.position = ownCharacter.transform.position + _attackInfo.attackBox.offset;
+
+        //attackBox.transform.position = _attackInfo.attackBox.offset;
+        //attackBox.transform.rotation = _attackInfo.owner.transform.rotation;
+        //attackBox.transform.position += _attackInfo.owner.transform.position;
+
+        // (수정)
+        // 어택박스 시간 지나면 자동으로 사라지게 해야함
+
+        Debug.Log("Attack Box Pos : " + attackBox.transform.position);
 
 
         return attackBox;
