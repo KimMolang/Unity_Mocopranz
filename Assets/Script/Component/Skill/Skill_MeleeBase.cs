@@ -91,8 +91,6 @@ public class Skill_Melee : MonoBehaviour {
 
         AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
 
-        Debug.Log(timer);
-
         // (수정)
         if ( timer >= attacInfo.nextInputWatingTime )
         {
@@ -112,23 +110,17 @@ public class Skill_Melee : MonoBehaviour {
         //    return null;
 
         GameObject attackBox
-            = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.AttackBox]);
+            = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.AttackBox]
+                , ownCharacter.transform.position
+                , ownCharacter.transform.rotation);
 
         attackBox.GetComponent<AttackBox>().aliveTime = _attackInfo.attackBox.aliveTime;
 
-        //attackBox.transform.position = _attackInfo.attackBox.offset;
-        attackBox.transform.rotation = ownCharacter.transform.rotation;
-        attackBox.transform.position = ownCharacter.transform.position + _attackInfo.attackBox.offset;
+        attackBox.transform.position += (attackBox.transform.right * _attackInfo.attackBox.offset.x);
+        attackBox.transform.position += (attackBox.transform.up * _attackInfo.attackBox.offset.y);
+        attackBox.transform.position += (attackBox.transform.forward * _attackInfo.attackBox.offset.z);
 
-        //attackBox.transform.position = _attackInfo.attackBox.offset;
-        //attackBox.transform.rotation = _attackInfo.owner.transform.rotation;
-        //attackBox.transform.position += _attackInfo.owner.transform.position;
-
-        // (수정)
-        // 어택박스 시간 지나면 자동으로 사라지게 해야함
-
-        Debug.Log("Attack Box Pos : " + attackBox.transform.position);
-
+        // (수정) 사이즈도 셋팅해야함
 
         return attackBox;
     }

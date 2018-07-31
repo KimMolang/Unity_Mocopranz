@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ObjectMgr : MonoBehaviour {
 
+    // (수정)
+    // 그리고 오브젝트 풀 만들어 보기
     public enum CommonObjectType
     {
         Bin,
