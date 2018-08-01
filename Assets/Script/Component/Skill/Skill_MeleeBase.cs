@@ -34,12 +34,15 @@ public class Skill_MeleeBase : Skill
         attackInfo.effectOffset = new Vector3(0.0f, 1.0f, 1.0f);
 
         attackInfoList[0] = attackInfo;
+        attackInfoList[0].ownerAnimationName = "Jab";
 
         attackInfo.nextInputWatingTime = 1.0f;
         attackInfoList[1] = attackInfo;
+        attackInfoList[1].ownerAnimationName = "Hikick";
 
         attackInfo.nextInputWatingTime = 0.8f;
         attackInfoList[2] = attackInfo;
+        attackInfoList[2].ownerAnimationName = "Jab";
     }
 
     // Use this for initialization
@@ -65,6 +68,10 @@ public class Skill_MeleeBase : Skill
             timer = 0.0f;
 
             CreateAttackBox(attacInfo);
+
+            //AddClip
+            //ownCharacter.GetComponent<Animation>().Play(attacInfo.ownerAnimationName);
+            ownCharacter.GetComponent<Animation>().CrossFade(attacInfo.ownerAnimationName, 0.1f);
             ++curContinuousAttackCnt;
         }
 

@@ -2,68 +2,72 @@
 using System.Collections;
 
 
-[RequireComponent(typeof(CharacterController))]
 public class FSMBase : MonoBehaviour
 {
-    //CharacterController 와 Animator 컴포넌트를 제어하는 변수.
-    public CharacterController characterController;
-    public Animator anim;
+    private /*Animator*/Animation animation;
 
 
-    //개체(몬스터, 캐릭터 등)의 상태변화를 제어하는 변수.
-    public CharacterState CHState;
+    public CharacterState characterState;
+    public CharacterAnimationState characterAnimationState;
 
-
-    //개체의 상태가 바꼈는지 체크하는 변수.
-    public bool isNewState;
+    public bool isNewCharacterState;
 
 
 
     protected virtual void Awake()
     {
-        characterController = GetComponent<CharacterController>();
-        anim = GetComponentInChildren<Animator>();
+        animation = this.gameObject.GetComponent<Animation>();
     }
 
-
-    //모든 개체는 씬에 생성되는 순간 Idle 상태가 되며, FSMMain 코루틴 메소드를 실행한다.
     protected virtual void OnEnable()
     {
-        CHState = CharacterState.Idle;
-        StartCoroutine(FSMMain());
+        characterState = CharacterState.Idle;
+        characterAnimationState = CharacterAnimationState.Idle;
 
+        StartCoroutine(FSMMain());
+    }
+
+    protected virtual void OnDisable()
+    {
+        StopCoroutine(FSMMain());
     }
 
     IEnumerator FSMMain()
     {
-        //상태가 바뀌면 IEnumerator CHState.ToString() 메소드를 실행한다. 처음은 IEnumerator  Idle() 실행
         while (true)
         {
-            isNewState = false;
-            yield return StartCoroutine(CHState.ToString());
+            isNewCharacterState = false;
+            yield return StartCoroutine(characterState.ToString());
         }
     }
 
     //개체의 상태가 바뀔때마다 메소드가 실행된다.
-    public void SetState(CharacterState newState)
+    public void SetState(CharacterState _newCharState, CharacterAnimationState _newCharAnimState)
     {
-        isNewState = true;
-        CHState = newState;
+        isNewCharacterState = true;
+
+        characterState = _newCharState;
+        characterAnimationState = _newCharAnimState;
 
         //개체가 가진 Animator 컴포넌트의 state Parameters 에게 상태변화 값을 전달한다. 
-        anim.SetInteger("state", (int)CHState);
+        //anim.SetInteger("state", (int)CHState);
     }
 
-
-
-    //모든 개체는 Idle 상태를 가진다.
     protected virtual IEnumerator Idle()
     {
         do
         {
-            //1프레임에 한번만 체크한다.
             yield return null;
 
-        } while (!isNewState); //do 문 종료조건.
+            switch(characterAnimationState)
+            {
+                case CharacterAnimationState.Idle:
+                    break;
+
+                case CharacterAnimationState.Idle_NotingInput:
+                    break;
+            }
+
+        } while (!isNewCharacterState); //do 문 종료조건.
     }
 }
