@@ -5,9 +5,13 @@ using UnityEngine;
 public struct AttackInfo
 {
     public float nextInputWatingTime;
+    public KeyCode nextInput;
 
-    //public GameObject owner;
+    public GameObject owner;
     public string ownerAnimationName;
+
+    public string effectName;
+    public float effectOffet;
 
     public AttackBoxInfo attackBox;
 }
@@ -17,7 +21,6 @@ public struct AttackBoxInfo
     public Vector3 offset;
     public Vector3 size;
     public float aliveTime;
-    public string effectName;
 }
 
 public class Skill : MonoBehaviour {
@@ -52,13 +55,8 @@ public class Skill : MonoBehaviour {
                 , ownCharacter.transform.position
                 , ownCharacter.transform.rotation);
 
-        attackBox.GetComponent<AttackBox>().aliveTime = _attackInfo.attackBox.aliveTime;
+        attackBox.GetComponent<AttackBox>().SetAttackBoxInfo(_attackInfo.attackBox);
 
-        attackBox.transform.position += (attackBox.transform.right * _attackInfo.attackBox.offset.x);
-        attackBox.transform.position += (attackBox.transform.up * _attackInfo.attackBox.offset.y);
-        attackBox.transform.position += (attackBox.transform.forward * _attackInfo.attackBox.offset.z);
-
-        // (수정) 사이즈도 셋팅해야함
 
         return attackBox;
     }

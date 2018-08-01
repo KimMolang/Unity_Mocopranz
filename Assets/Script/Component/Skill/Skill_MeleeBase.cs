@@ -22,7 +22,7 @@ public class Skill_MeleeBase : Skill
         
 
         AttackBoxInfo attackBoxInfo = new AttackBoxInfo();
-        attackBoxInfo.offset = new Vector3(0.0f, 0.0f, 1.0f);
+        attackBoxInfo.offset = new Vector3(0.0f, 1.0f, 1.0f);
         attackBoxInfo.size = new Vector3(1.0f, 1.0f, 1.0f);
         attackBoxInfo.aliveTime = 1.0f;
 
