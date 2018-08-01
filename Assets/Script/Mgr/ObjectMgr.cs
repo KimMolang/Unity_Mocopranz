@@ -9,10 +9,19 @@ public class ObjectMgr : MonoBehaviour {
     {
         Bin,
         AttackBox,
+
+        MAX
+    }
+
+    public enum CommonEffectType
+    {
+        Hit,
+
         MAX
     }
 
     static public GameObject[] commonObjectList;
+    static public GameObject[] commonEffectList;
 
 
     private static ObjectMgr _instance;
@@ -63,6 +72,14 @@ public class ObjectMgr : MonoBehaviour {
                 = Resources.Load("Prefab/Bin") as GameObject;
         commonObjectList[(int)CommonObjectType.AttackBox]
                 = Resources.Load("Prefab/AttackBox") as GameObject;
+
+
+        // (Need a Modify)
+        // 이펙트 인덱스로 찾아야함. ex) _attackInfo.effectIndex
+        commonEffectList = new GameObject[(int)CommonEffectType.MAX];
+
+        commonEffectList[(int)CommonEffectType.Hit]
+                = Resources.Load("Prefab/Hit") as GameObject;
     }
 
     static public GameObject CreateSkill(string _strScripName, GameObject _owner)
@@ -85,11 +102,8 @@ public class ObjectMgr : MonoBehaviour {
         //}
         //catch(System.Exception e)
         //{
-        //    Debug.Log(e.Message);
+        //    Debug.LogError(e.Message);
         //}
-        //Debug.Log("!!");
-        //Debug.LogWarning("!!");
-        //Debug.LogError("!!");
 
         if (componentSkill == null)
         {

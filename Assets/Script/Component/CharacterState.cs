@@ -12,6 +12,18 @@ public enum CharacterState
     Die
 }
 
+public enum ChracterDamagedState
+{
+    Normal,
+    Stiffen,
+
+    Down,
+}
+
+// 상태이상
+// 버프
+// 디버프
+
 public enum CharacterAnimationState
 {
     Idle,
@@ -32,7 +44,6 @@ public enum CharacterAnimationState
     Attack_Q,
     Attack_E,
     Attack_Shift,
-    Attack_Ctrl,
     Attack_Space,
 
     Stiffen,    // 경직

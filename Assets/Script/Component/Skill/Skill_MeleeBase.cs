@@ -16,8 +16,9 @@ public class Skill_MeleeBase : Skill
 
     void Awake()
     {
-        // test
-        // 이 데이터를 넣는 파싱 작업을 해야겠어용
+        // (Need a modify)
+        // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
+        // 초기화하는 작업 해야겠어용
         attackInfoList = new AttackInfo[continuousAttackNum];
         
 
@@ -29,7 +30,8 @@ public class Skill_MeleeBase : Skill
         AttackInfo attackInfo = new AttackInfo();
         attackInfo.nextInputWatingTime = 0.0f;
         attackInfo.attackBox = attackBoxInfo;
-        //attackInfo.owner = ownCharacter;
+        attackInfo.effectIndex = 0;
+        attackInfo.effectOffset = new Vector3(0.0f, 1.0f, 1.0f);
 
         attackInfoList[0] = attackInfo;
 
@@ -43,16 +45,7 @@ public class Skill_MeleeBase : Skill
     // Use this for initialization
     void Start ()
     {
-        if (ownCharacter == null)
-            return;
 
-
-        AttackInfo attacInfo
-            = attackInfoList[curContinuousAttackCnt];
-
-        CreateAttackBox(attacInfo);
-
-        ++curContinuousAttackCnt;
     }
 	
 	// Update is called once per frame
@@ -66,7 +59,7 @@ public class Skill_MeleeBase : Skill
 
         AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
 
-        // (수정)
+        // (수정) 키 입력 시 발동 되도록
         if ( timer >= attacInfo.nextInputWatingTime )
         {
             timer = 0.0f;
@@ -76,6 +69,8 @@ public class Skill_MeleeBase : Skill
         }
 
         if (curContinuousAttackCnt >= continuousAttackNum)
+        {
             Destroy(this.gameObject); // Destroy(bin);
+        }
     }
 }

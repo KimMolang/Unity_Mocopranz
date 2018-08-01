@@ -32,8 +32,9 @@ public class CharacterController : MonoBehaviour {
 
     private void CheckKey()
     {
-        // test
-        if(Input.GetKeyDown(KeyCode.Mouse0))
+        // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
+        // 초기화하는 작업 해야겠어용
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             ObjectMgr.CreateSkill("Skill_MeleeBase", this.gameObject);
         }

@@ -10,8 +10,8 @@ public struct AttackInfo
     public GameObject owner;
     public string ownerAnimationName;
 
-    public string effectName;
-    public float effectOffet;
+    public int effectIndex;
+    public Vector3 effectOffset;
 
     public AttackBoxInfo attackBox;
 }
@@ -27,7 +27,7 @@ public class Skill : MonoBehaviour {
 
     [Header("Skill Base Info")]
     [SerializeField]
-    private float startDeleyTime = 0.1f;
+    private float startDeleyTime = 0.0f;
     [SerializeField]
     private float coolTime = 0.2f;
 
@@ -56,6 +56,20 @@ public class Skill : MonoBehaviour {
                 , ownCharacter.transform.rotation);
 
         attackBox.GetComponent<AttackBox>().SetAttackBoxInfo(_attackInfo.attackBox);
+
+        attackBox.transform.position += (attackBox.transform.right * _attackInfo.attackBox.offset.x);
+        attackBox.transform.position += (attackBox.transform.up * _attackInfo.attackBox.offset.y);
+        attackBox.transform.position += (attackBox.transform.forward * _attackInfo.attackBox.offset.z);
+
+
+        GameObject effect
+            = Instantiate(ObjectMgr.commonEffectList[_attackInfo.effectIndex]
+                , ownCharacter.transform.position
+                , ownCharacter.transform.rotation);
+
+        effect.transform.position += (effect.transform.right * _attackInfo.effectOffset.x);
+        effect.transform.position += (effect.transform.up * _attackInfo.effectOffset.y);
+        effect.transform.position += (effect.transform.forward * _attackInfo.effectOffset.z);
 
 
         return attackBox;

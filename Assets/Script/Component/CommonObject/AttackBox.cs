@@ -14,10 +14,6 @@ public class AttackBox : MonoBehaviour {
     {
         aliveTime = _info.aliveTime;
         boxCollider.size = _info.size;
-
-        transform.position += (transform.right * _info.offset.x);
-        transform.position += (transform.up * _info.offset.y);
-        transform.position += (transform.forward * _info.offset.z);
     }
 
     void Awake()
@@ -36,6 +32,9 @@ public class AttackBox : MonoBehaviour {
         timer += Time.deltaTime;
 
         if (timer >= aliveTime)
+        {
             Destroy(this.gameObject);
+        }
+            
     }
 }
