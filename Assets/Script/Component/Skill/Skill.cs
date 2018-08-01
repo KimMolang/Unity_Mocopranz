@@ -18,8 +18,11 @@ public struct AttackInfo
 
 public struct AttackBoxInfo
 {
+    public float delayTime;
+
     public Vector3 offset;
     public Vector3 size;
+
     public float aliveTime;
 }
 

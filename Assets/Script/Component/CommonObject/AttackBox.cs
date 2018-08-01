@@ -7,18 +7,23 @@ public class AttackBox : MonoBehaviour {
 
     private BoxCollider boxCollider;
 
+    //private GameObject effectHitSomething;
+
+    private float delayTime = 0.0f;
     private float aliveTime = 0.0f;
     private float timer = 0.0f;
 
     public void SetAttackBoxInfo(AttackBoxInfo _info)
     {
-        aliveTime = _info.aliveTime;
+        delayTime = _info.delayTime;
         boxCollider.size = _info.size;
+        aliveTime = _info.delayTime + _info.aliveTime;
     }
 
     void Awake()
     {
         boxCollider = this.gameObject.GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
     }
 
 	// Use this for initialization
@@ -30,6 +35,11 @@ public class AttackBox : MonoBehaviour {
 	void Update ()
     {
         timer += Time.deltaTime;
+
+        if(this.enabled == false && timer >= delayTime)
+        {
+            boxCollider.enabled = true;
+        }
 
         if (timer >= aliveTime)
         {
