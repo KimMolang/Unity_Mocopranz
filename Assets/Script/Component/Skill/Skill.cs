@@ -7,7 +7,7 @@ public struct AttackInfo
     public float nextInputWatingTime;
     public KeyCode nextInput;
 
-    public GameObject owner;
+    //public GameObject owner;
     public string ownerAnimationName;
 
     public int effectIndex;
@@ -30,13 +30,30 @@ public class Skill : MonoBehaviour {
 
     [Header("Skill Base Info")]
     [SerializeField]
-    private float startDeleyTime = 0.0f;
+    private float startDeleyTime = 0.0f;    // 스킬 사용 후 발동하기 까지
+    [SerializeField]
+    private float latterDeleyTime = 0.0f;   // 스킬 사용 후 캐릭터가 Idle 상태로 가기까지
     [SerializeField]
     private float coolTime = 0.2f;
+    [SerializeField]
+    private bool isMovable = false; // 움직이면서 사용할 수 있는 스킬입니까?
+
+    // 방향키 속성
+    // ex) 앞 키를 누르고 있으면 조금 더 앞으로 감
+    // ex) 뒷 키 누르면 제자리
+    // ex) 아무것도 안 누르면 조금 전진
 
 
     protected GameObject ownCharacter;
-    public void SetOwnCharacter(GameObject _own) { ownCharacter = _own; }
+    protected Animator ownCharacterAnimator;
+    protected CharacterController ownCharacterController;
+
+    public void SetOwnCharacter(GameObject _own)
+    {
+        ownCharacter = _own;
+        ownCharacterAnimator = ownCharacter.GetComponent<Animator>();
+        ownCharacterController = ownCharacter.GetComponent<CharacterController>();
+    }
 
     // Use this for initialization
     void Start () {
