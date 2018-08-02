@@ -36,7 +36,7 @@ public class Skill_MeleeBase : Skill
         attackInfoList[0] = attackInfo;
         attackInfoList[0].ownerAnimationName = "ML_0";
 
-        attackInfo.nextInputWatingTime = 1.0f;
+        attackInfo.nextInputWatingTime = 0.8f;
         attackInfoList[1] = attackInfo;
         attackInfoList[1].ownerAnimationName = "ML_1";
 
@@ -69,9 +69,7 @@ public class Skill_MeleeBase : Skill
 
             CreateAttackBox(attacInfo);
 
-            //AddClip
-            //ownCharacter.GetComponent<Animation>().Play(attacInfo.ownerAnimationName);
-            //ownCharacter.GetComponent<Animation>().CrossFade(attacInfo.ownerAnimationName, 0.1f);
+            ownCharacter.GetComponent<Animator>().CrossFade(attacInfo.ownerAnimationName, 0.1f);
             ++curContinuousAttackCnt;
         }
 
