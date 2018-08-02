@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(FSMPlayer))]
 public class CharacterController : MonoBehaviour {
 
     [Header("Ratating And Moving")]
@@ -10,6 +11,13 @@ public class CharacterController : MonoBehaviour {
     [SerializeField] [Range(0.0f, 80.0f)] private float turnSpeed = 30.0f;
     [SerializeField] private float moveSpeed_forward = 8.0f;
     [SerializeField] private float moveSpeed_side = 5.0f;
+
+    private FSMPlayer fsmPlyer;
+
+    private void Awake()
+    {
+        fsmPlyer = this.gameObject.GetComponent<FSMPlayer>();
+    }
 
     // Use this for initialization
     private void Start () {
@@ -62,19 +70,58 @@ public class CharacterController : MonoBehaviour {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
-
-        float moveSpeed = moveSpeed_forward;
-
-        if ( (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.S))
-            && !(Input.GetKey(KeyCode.W)) )
+        if (h == 0.0f && v == 0.0f)
         {
-            moveSpeed = moveSpeed_side;
+            fsmPlyer.SetState(CharacterState.Idle, CharacterAnimationState.Idle);
+            return;
         }
 
 
         Vector3 movement = (transform.forward * v) + (transform.right * h);
-        movement = movement.normalized * moveSpeed * Time.fixedDeltaTime;
 
+        CharacterAnimationState animState
+            = CharacterAnimationState.Moving_F;
+
+        bool isFrondSide = (Input.GetKey(KeyCode.W)) ? true : false;
+        float moveAngle = Vector3.Angle(movement, transform.right);
+
+        float moveSpeed = (Input.GetKey(KeyCode.W)) ? moveSpeed_forward : moveSpeed_side;
+
+        //Debug.Log(moveAngle);
+        if (180.0f <= moveAngle)
+        {
+            animState = CharacterAnimationState.Moving_L;
+        }
+        else if(135.0f <= moveAngle)
+        {
+            if (isFrondSide)
+                animState = CharacterAnimationState.Moving_FL;
+            else
+                animState = CharacterAnimationState.Moving_BL;
+        }
+        else if (90.0f <= moveAngle)
+        {
+            if (isFrondSide)
+                animState = CharacterAnimationState.Moving_F;
+            else
+                animState = CharacterAnimationState.Moving_B;
+        }
+        else if (45.0f <= moveAngle)
+        {
+            if (isFrondSide)
+                animState = CharacterAnimationState.Moving_FR;
+            else
+                animState = CharacterAnimationState.Moving_BR;
+        }
+        else if(0.0f <= moveAngle)
+        {
+            animState = CharacterAnimationState.Moving_R;
+        }
+        
+
+        movement = movement.normalized * moveSpeed * Time.fixedDeltaTime;
         transform.position += movement;
+
+        fsmPlyer.SetState(CharacterState.Moving, animState);
     }
 }

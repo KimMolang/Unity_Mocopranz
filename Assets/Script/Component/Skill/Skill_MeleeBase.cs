@@ -34,15 +34,15 @@ public class Skill_MeleeBase : Skill
         attackInfo.effectOffset = new Vector3(0.0f, 1.0f, 1.0f);
 
         attackInfoList[0] = attackInfo;
-        attackInfoList[0].ownerAnimationName = "Jab";
+        attackInfoList[0].ownerAnimationName = "ML_0";
 
         attackInfo.nextInputWatingTime = 1.0f;
         attackInfoList[1] = attackInfo;
-        attackInfoList[1].ownerAnimationName = "Hikick";
+        attackInfoList[1].ownerAnimationName = "ML_1";
 
         attackInfo.nextInputWatingTime = 0.8f;
         attackInfoList[2] = attackInfo;
-        attackInfoList[2].ownerAnimationName = "Jab";
+        attackInfoList[2].ownerAnimationName = "ML_2";
     }
 
     // Use this for initialization
@@ -71,7 +71,7 @@ public class Skill_MeleeBase : Skill
 
             //AddClip
             //ownCharacter.GetComponent<Animation>().Play(attacInfo.ownerAnimationName);
-            ownCharacter.GetComponent<Animation>().CrossFade(attacInfo.ownerAnimationName, 0.1f);
+            //ownCharacter.GetComponent<Animation>().CrossFade(attacInfo.ownerAnimationName, 0.1f);
             ++curContinuousAttackCnt;
         }
 

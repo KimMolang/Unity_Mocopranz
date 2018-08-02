@@ -2,9 +2,10 @@
 using System.Collections;
 
 
+[RequireComponent(typeof(Animator))]
 public class FSMBase : MonoBehaviour
 {
-    private /*Animator*/Animation animation;
+    protected Animator animator;
 
 
     public CharacterState characterState;
@@ -16,7 +17,7 @@ public class FSMBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        animation = this.gameObject.GetComponent<Animation>();
+        animator = this.gameObject.GetComponent<Animator>();
     }
 
     protected virtual void OnEnable()
@@ -44,30 +45,35 @@ public class FSMBase : MonoBehaviour
     //개체의 상태가 바뀔때마다 메소드가 실행된다.
     public void SetState(CharacterState _newCharState, CharacterAnimationState _newCharAnimState)
     {
+        if (characterState == _newCharState && characterAnimationState == _newCharAnimState)
+            return;
+
+
         isNewCharacterState = true;
 
         characterState = _newCharState;
         characterAnimationState = _newCharAnimState;
 
-        //개체가 가진 Animator 컴포넌트의 state Parameters 에게 상태변화 값을 전달한다. 
-        //anim.SetInteger("state", (int)CHState);
+        //개체가 가진 Animator 컴포넌트의 state Parameters 에게 상태변화 값을 전달한다.
+        animator.SetInteger("State", (int)characterState);
     }
 
     protected virtual IEnumerator Idle()
     {
+        switch (characterAnimationState)
+        {
+            case CharacterAnimationState.Idle:
+                break;
+
+            case CharacterAnimationState.Idle_NotingInput:
+                break;
+        }
+
+
         do
         {
             yield return null;
 
-            switch(characterAnimationState)
-            {
-                case CharacterAnimationState.Idle:
-                    break;
-
-                case CharacterAnimationState.Idle_NotingInput:
-                    break;
-            }
-
-        } while (!isNewCharacterState); //do 문 종료조건.
+        } while (!isNewCharacterState);
     }
 }
