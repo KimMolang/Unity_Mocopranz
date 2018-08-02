@@ -17,18 +17,22 @@ public class FSMPlayer : FSMBase
 
     protected override IEnumerator Idle()
     {
+        switch (characterAnimationState)
+        {
+            case CharacterAnimationState.Idle:
+                animator.CrossFade(characterAnimationState.ToString(), 0.1f);
+                break;
+
+            case CharacterAnimationState.Idle_NotingInput:
+                break;
+        }
+
+
         do
         {
             yield return null;
 
-            switch (characterAnimationState)
-            {
-                case CharacterAnimationState.Idle:
-                    break;
-
-                case CharacterAnimationState.Idle_NotingInput:
-                    break;
-            }
+            
 
         } while (!isNewCharacterState);
     }
@@ -45,7 +49,7 @@ public class FSMPlayer : FSMBase
             case CharacterAnimationState.Moving_FR:
             case CharacterAnimationState.Moving_BL:
             case CharacterAnimationState.Moving_BR:
-                animator.CrossFade(characterAnimationState.ToString(), 0.5f);
+                animator.CrossFade(characterAnimationState.ToString(), 0.1f);
                 break;
         }
 
