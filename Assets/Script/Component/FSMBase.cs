@@ -64,31 +64,10 @@ public class FSMBase : MonoBehaviour
         animator.SetInteger("State", (int)characterState);
     }
 
-    protected virtual IEnumerator Idle()
+    #region public bool IsAbleTo~()
+    public bool IsAbleToRotate()
     {
-        switch (characterAnimationState)
-        {
-            case CharacterAnimationState.Idle:
-                break;
-
-            case CharacterAnimationState.Idle_NotingInput:
-                break;
-        }
-
-
-        do
-        {
-            yield return null;
-
-        } while (!isNewCharacterState);
-    }
-
-    public bool IsAbleToUseSkill()
-    {
-        //protected CharacterState characterState;
-        // protected CharacterAnimationState characterAnimationState;
-
-        switch(characterState)
+        switch (characterState)
         {
             case CharacterState.Idle:
                 return true;
@@ -97,10 +76,10 @@ public class FSMBase : MonoBehaviour
                 return true;
 
             case CharacterState.Attack:
-                return false;   // 이미 다른 스킬을 사용하고 있다.
+                return true;
 
             case CharacterState.Damaged:
-                switch(characterDamagedState)
+                switch (characterDamagedState)
                 {
                     case ChracterDamagedState.None:
                         return true;
@@ -108,7 +87,51 @@ public class FSMBase : MonoBehaviour
                     case ChracterDamagedState.Normal:
                         return true;
 
-                    case ChracterDamagedState.Stiffen :
+                    case ChracterDamagedState.Stiffen:
+                        return false;
+
+                    case ChracterDamagedState.Down:
+                        return true;
+                }
+                return false;
+
+            case CharacterState.WakeUp:
+                return false;
+
+            case CharacterState.Die:
+                return false;
+        }
+
+        return false;
+    }
+
+    public bool IsAbleToMove()
+    {
+        switch (characterState)
+        {
+            case CharacterState.Idle:
+                return true;
+
+            case CharacterState.Moving:
+                return true;
+
+            case CharacterState.Attack:
+                {
+                    // (Need a modification)
+                    // 스킬 마다 다름
+                }
+                return false; // tmp
+
+            case CharacterState.Damaged:
+                switch (characterDamagedState)
+                {
+                    case ChracterDamagedState.None:
+                        return true;
+
+                    case ChracterDamagedState.Normal:
+                        return true;
+
+                    case ChracterDamagedState.Stiffen:
                         return false;
 
                     case ChracterDamagedState.Down:
@@ -124,5 +147,64 @@ public class FSMBase : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool IsAbleToUseSkill()
+    {
+        switch (characterState)
+        {
+            case CharacterState.Idle:
+                return true;
+
+            case CharacterState.Moving:
+                return true;
+
+            case CharacterState.Attack:
+                return false;   // 이미 다른 스킬을 사용하고 있다.
+
+            case CharacterState.Damaged:
+                switch (characterDamagedState)
+                {
+                    case ChracterDamagedState.None:
+                        return true;
+
+                    case ChracterDamagedState.Normal:
+                        return true;
+
+                    case ChracterDamagedState.Stiffen:
+                        return false;
+
+                    case ChracterDamagedState.Down:
+                        return false;
+                }
+                return false;
+
+            case CharacterState.WakeUp:
+                return false;
+
+            case CharacterState.Die:
+                return false;
+        }
+
+        return false;
+    }
+    #endregion
+
+    protected virtual IEnumerator Idle()
+    {
+        switch (characterAnimationState)
+        {
+            case CharacterAnimationState.Idle:
+                break;
+
+            case CharacterAnimationState.Idle_NotingInput:
+                break;
+        }
+
+        do
+        {
+            yield return null;
+
+        } while (!isNewCharacterState);
     }
 }

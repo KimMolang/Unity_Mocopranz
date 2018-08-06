@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FSMPlayer))]
+[RequireComponent(typeof(CharacterSkillController))]
 public class CharacterMovingController : MonoBehaviour {
 
     [Header("Ratating And Moving")]
@@ -13,6 +14,7 @@ public class CharacterMovingController : MonoBehaviour {
     [SerializeField] private float moveSpeed_side = 5.0f;
 
     private FSMPlayer fsmPlyer;
+    private CharacterSkillController charSkillController;
 
     private void Awake()
     {
@@ -31,35 +33,20 @@ public class CharacterMovingController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        CheckSkillKey();
-
         UpdateRotation();
         UpdateMoving();
     }
 
-
-    private void CheckSkillKey()
-    {
-        if (fsmPlyer.IsAbleToUseSkill() == false)
-            return;
-
-        // 각 스킬 쿨 타임 체크는 따로 하자 (지금)
-        // (Need a modification)
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            ObjectMgr.CreateSkill("Skill_MeleeBase", this.gameObject);
-        }
-    }
 
     Vector3 curRatationRadian = new Vector3(0.0f, 0.0f, 0.0f);
 
     private void UpdateRotation()
     {
         // Check This character able to rotate
+        if (fsmPlyer.IsAbleToRotate() == false)
+            return;
 
         float fHorizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
-        //float fVerticalRotation = -1 * (Input.GetAxis("Mouse Y") * mouseSensitivity);
-        // 이건 UI에 사용하자
 
         curRatationRadian.y += fHorizontalRotation * turnSpeed * Time.fixedDeltaTime;
 
@@ -73,6 +60,9 @@ public class CharacterMovingController : MonoBehaviour {
     private void UpdateMoving()
     {
         // Check This character able to move
+        if (fsmPlyer.IsAbleToMove() == false)
+            return;
+        
 
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");

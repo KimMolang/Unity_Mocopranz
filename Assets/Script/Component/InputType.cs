@@ -9,4 +9,6 @@ public enum SkillInputType
     Button_E,
     Button_Shift,
     Button_Space,
+
+    MAX
 }
