@@ -39,9 +39,9 @@ public abstract class Skill : MonoBehaviour {
 
     [Header("Skill Base Info")]
     [SerializeField]
-    protected float startDelayTime = 0.0f;    // 스킬 사용 후 발동하기 까지
+    protected float startDelayTime = 0.0f; // 스킬 사용 후 발동하기 까지 (현재 그 사이 애니메이션 없음.)
     [SerializeField]
-    protected float endDelayTime = 0.0f;   // 스킬 사용 후 캐릭터가 Idle 상태로 가기까지
+    protected float endDelayTime = 0.0f;   // 모든 AttackInfo 처리 후 캐릭터가 Idle 상태로 가기까지 (현재 그 사이 애니메이션 없음.)
     [SerializeField]
     protected float coolTime = 0.2f;
     [SerializeField]

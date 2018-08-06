@@ -19,8 +19,9 @@ public class Skill_MeleeBase : Skill
         // (Need a modification)
         // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
         // 초기화하는 작업 해야겠어용
-        //startDelayTime = 3.0f; // 선딜 애니메이션
-        endDelayTime = 0.5f; // 후딜 애니메이션 따로 있어야 할 듯..?
+
+        //startDelayTime = 3.0f;
+        endDelayTime = 0.5f;
         coolTime = 0.0f;
 
         attackInfoList = new AttackInfo[continuousAttackNum];
