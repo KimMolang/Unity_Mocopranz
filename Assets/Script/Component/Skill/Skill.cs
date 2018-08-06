@@ -28,14 +28,20 @@ public struct AttackBoxInfo
     public float aliveTime;
 }
 
+public enum SkillDelayState
+{
+    Start,
+    Working,
+    End
+}
 
-public class Skill : MonoBehaviour {
+public abstract class Skill : MonoBehaviour {
 
     [Header("Skill Base Info")]
     [SerializeField]
-    protected float startDeleyTime = 0.0f;    // 스킬 사용 후 발동하기 까지
+    protected float startDelayTime = 0.0f;    // 스킬 사용 후 발동하기 까지
     [SerializeField]
-    protected float latterDeleyTime = 0.0f;   // 스킬 사용 후 캐릭터가 Idle 상태로 가기까지
+    protected float endDelayTime = 0.0f;   // 스킬 사용 후 캐릭터가 Idle 상태로 가기까지
     [SerializeField]
     protected float coolTime = 0.2f;
     [SerializeField]
@@ -52,6 +58,10 @@ public class Skill : MonoBehaviour {
     protected Animator ownCharacterAnimator;
     protected CharacterController ownCharacterController;
 
+    private SkillDelayState skillDelayState;
+    protected float timer;
+
+
     public void SetOwnCharacter(GameObject _own)
     {
         ownCharacter = _own;
@@ -59,9 +69,17 @@ public class Skill : MonoBehaviour {
         ownCharacterController = ownCharacter.GetComponent<CharacterController>();
     }
 
+    // You have to this function In Work() function.
+    protected void SetSkillDelayStateToEnd()
+    {
+        timer = 0.0f;
+        skillDelayState = SkillDelayState.End;
+    }
+
     protected virtual void Awake()
     {
-
+        skillDelayState = SkillDelayState.Start;
+        timer = 0.0f;
     }
 
     // Use this for initialization
@@ -70,9 +88,27 @@ public class Skill : MonoBehaviour {
 	}
 
     // Update is called once per frame
-    protected virtual void FixedUpdate() {
-		
-	}
+    protected virtual void FixedUpdate()
+    {
+        if (ownCharacter == null)
+            return;
+
+
+        switch (skillDelayState)
+        {
+            case SkillDelayState.Start:
+                UpdateStartDelayTimer();
+                break;
+
+            case SkillDelayState.Working:
+                Work();
+                break;
+
+            case SkillDelayState.End:
+                UpdateEndDelayTimer();
+                break;
+        }
+    }
 
     protected GameObject CreateAttackBox(AttackInfo _attackInfo)
     {
@@ -104,7 +140,49 @@ public class Skill : MonoBehaviour {
         return attackBox;
     }
 
-    protected void Finish()
+    protected bool UpdateStartDelayTimer()
+    {
+        //if (skillDelayState != SkillDelayState.Start)
+        //    return false;
+
+
+        timer += Time.fixedDeltaTime; 
+        
+        if(timer >= startDelayTime)
+        {
+            skillDelayState = SkillDelayState.Working;
+            timer = 0.0f;
+            return false;
+        }
+
+        return true;
+    }
+
+    protected bool UpdateEndDelayTimer()
+    {
+        //if (skillDelayState != SkillDelayState.End)
+        //    return false;
+
+
+        timer += Time.fixedDeltaTime;
+
+        if (timer >= endDelayTime)
+        {
+            
+            timer = 0.0f;
+            Finish();
+            return false;
+        }
+
+        return true;
+    }
+
+    protected virtual void Work()
+    {
+        // You have to call a function of SetSkillDelayStateToEnd().
+    }
+
+    protected virtual void Finish()
     {
         // (Need a modification) 스크립트에서 정보 다 가져와야합니다.
         ownCharacter.GetComponent<CharacterSkillController>().StartCoolTimer(SkillInputType.Button_ML, coolTime);

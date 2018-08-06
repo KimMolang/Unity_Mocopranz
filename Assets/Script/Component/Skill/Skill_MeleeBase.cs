@@ -11,7 +11,6 @@ public class Skill_MeleeBase : Skill
 
 
     private int curContinuousAttackCnt = 0;
-    private float timer = 0.0f;
 
 
     protected override void Awake()
@@ -20,7 +19,8 @@ public class Skill_MeleeBase : Skill
         // (Need a modification)
         // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
         // 초기화하는 작업 해야겠어용
-        latterDeleyTime = 0.5f;
+        //startDelayTime = 3.0f; // 선딜 애니메이션
+        endDelayTime = 0.5f; // 후딜 애니메이션 따로 있어야 할 듯..?
         coolTime = 0.0f;
 
         attackInfoList = new AttackInfo[continuousAttackNum];
@@ -59,58 +59,64 @@ public class Skill_MeleeBase : Skill
 
     }
 
-    // Update is called once per frame
-    protected override void FixedUpdate()
+    protected override void Work()
     {
-        if (ownCharacter == null)
-            return;
-
-
         timer += Time.fixedDeltaTime;
 
-        if (curContinuousAttackCnt < continuousAttackNum)
-        {
-            AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
-            bool isReadyToReleasAttack = false;
 
-            if (attacInfo.needInput == KeyCode.None)
+        AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
+        bool isReadyToReleasAttack = false;
+
+        // 1) Unneed user key input.
+        if (attacInfo.needInput == KeyCode.None)
+        {
+            // Process it automatically.
+            if (timer >= attacInfo.waitingTime)
             {
-                if (timer >= attacInfo.waitingTime)
+                isReadyToReleasAttack = true;
+            }
+        }
+        else // 2) Need user key input
+        {
+            // Key must be entered within the attacInfo.waitingTime.
+            if (timer < attacInfo.waitingTime)
+            {
+                if (Input.GetKeyDown(attacInfo.needInput))
                 {
                     isReadyToReleasAttack = true;
                 }
             }
-            else // (Need a midify) 키 입력 시 발동 되도록
+            else if (timer >= attacInfo.waitingTime)
             {
-                if (timer < attacInfo.waitingTime)
-                {
-                    if (Input.GetKeyDown(attacInfo.needInput))
-                    {
-                        isReadyToReleasAttack = true;
-                    }
-                }
-                else if (timer >= attacInfo.waitingTime)
-                {
-                    curContinuousAttackCnt = continuousAttackNum;
-                }
-            }
+                //Debug.Log(attacInfo.waitingTime);
+                curContinuousAttackCnt = continuousAttackNum;
 
-            if (isReadyToReleasAttack)
-            {
-                timer = 0.0f;
-
-                CreateAttackBox(attacInfo);
-
-                ownCharacterAnimator.CrossFade(attacInfo.ownerAnimationName, 0.1f);
-                ++curContinuousAttackCnt;
+                // Reduce endDelayTime as player wait for the key input
+                endDelayTime -= attacInfo.waitingTime;
             }
         }
-        else
+
+        // CreateAttackBox
+        if (isReadyToReleasAttack)
         {
-            if (timer >= latterDeleyTime)
-            {
-                base.Finish();
-            }
+            timer = 0.0f;
+
+            CreateAttackBox(attacInfo);
+
+            ownCharacterAnimator.CrossFade(attacInfo.ownerAnimationName, 0.1f);
+            ++curContinuousAttackCnt;
         }
+
+
+        if (curContinuousAttackCnt >= continuousAttackNum)
+        {
+            // If working is done, you have to call this function.
+            SetSkillDelayStateToEnd();
+        }
+    }
+
+    protected override void Finish()
+    {
+        base.Finish();
     }
 }

@@ -5,14 +5,14 @@ using System.Collections;
 [RequireComponent(typeof(CharacterSkillController))]
 public class FSMPlayer : FSMBase
 {
-    CharacterSkillController charSkillController;
+    //CharacterSkillController charSkillController;
 
 
     protected override void Awake()
     {
         base.Awake();
 
-        charSkillController = this.gameObject.GetComponent<CharacterSkillController>();
+        //charSkillController = this.gameObject.GetComponent<CharacterSkillController>();
     }
 
     protected override IEnumerator Idle()
