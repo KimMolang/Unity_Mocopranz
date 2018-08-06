@@ -14,13 +14,14 @@ public class Skill_MeleeBase : Skill
     private float timer = 0.0f;
 
 
-    void Awake()
+    protected override void Awake()
     {
         base.Awake();
         // (Need a modification)
         // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
         // 초기화하는 작업 해야겠어용
-        coolTime = 3.0f;
+        latterDeleyTime = 0.5f;
+        coolTime = 0.0f;
 
         attackInfoList = new AttackInfo[continuousAttackNum];
         
@@ -53,58 +54,63 @@ public class Skill_MeleeBase : Skill
     }
 
     // Use this for initialization
-    void Start ()
+    protected override void Start ()
     {
 
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    protected override void FixedUpdate()
     {
         if (ownCharacter == null)
             return;
 
 
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
 
-        AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
-        bool isReadyToReleasAttack = false;
+        if (curContinuousAttackCnt < continuousAttackNum)
+        {
+            AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
+            bool isReadyToReleasAttack = false;
 
-        if(attacInfo.needInput == KeyCode.None )
-        {
-            if (timer >= attacInfo.waitingTime)
+            if (attacInfo.needInput == KeyCode.None)
             {
-                isReadyToReleasAttack = true;
-            }
-        }
-        else // (Need a midify) 키 입력 시 발동 되도록
-        {
-            if ( timer < attacInfo.waitingTime )
-            {
-                if ( Input.GetKeyDown(attacInfo.needInput) )
+                if (timer >= attacInfo.waitingTime)
                 {
                     isReadyToReleasAttack = true;
                 }
             }
-            else if( timer >= attacInfo.waitingTime )
+            else // (Need a midify) 키 입력 시 발동 되도록
             {
-                curContinuousAttackCnt = continuousAttackNum;
+                if (timer < attacInfo.waitingTime)
+                {
+                    if (Input.GetKeyDown(attacInfo.needInput))
+                    {
+                        isReadyToReleasAttack = true;
+                    }
+                }
+                else if (timer >= attacInfo.waitingTime)
+                {
+                    curContinuousAttackCnt = continuousAttackNum;
+                }
+            }
+
+            if (isReadyToReleasAttack)
+            {
+                timer = 0.0f;
+
+                CreateAttackBox(attacInfo);
+
+                ownCharacterAnimator.CrossFade(attacInfo.ownerAnimationName, 0.1f);
+                ++curContinuousAttackCnt;
             }
         }
-
-        if( isReadyToReleasAttack )
+        else
         {
-            timer = 0.0f;
-
-            CreateAttackBox(attacInfo);
-
-            ownCharacterAnimator.CrossFade(attacInfo.ownerAnimationName, 0.1f);
-            ++curContinuousAttackCnt;
-        }
-
-        if (curContinuousAttackCnt >= continuousAttackNum)
-        {
-            base.Finish();
+            if (timer >= latterDeleyTime)
+            {
+                base.Finish();
+            }
         }
     }
 }

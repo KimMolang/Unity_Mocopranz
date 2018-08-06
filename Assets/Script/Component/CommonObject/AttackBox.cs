@@ -32,9 +32,9 @@ public class AttackBox : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update ()
+	void FixedUpdate()
     {
-        timer += Time.deltaTime;
+        timer += Time.fixedDeltaTime;
 
         if(this.enabled == false && timer >= delayTime)
         {

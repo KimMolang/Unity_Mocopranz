@@ -5653,6 +5653,7 @@ GameObject:
   - component: {fileID: 1300538632}
   - component: {fileID: 1300538635}
   - component: {fileID: 1300538634}
+  - component: {fileID: 1300538637}
   - component: {fileID: 1300538636}
   m_Layer: 0
   m_Name: Player
@@ -5749,9 +5750,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86be4d94897630c4799246f32b527beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: 0
-  characterAnimationState: 0
   isNewCharacterState: 0
+--- !u!114 &1300538637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1300538630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56741a661343a8247a272296567e50a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1313192659
 GameObject:
   m_ObjectHideFlags: 0

@@ -59,18 +59,18 @@ public class Skill : MonoBehaviour {
         ownCharacterController = ownCharacter.GetComponent<CharacterController>();
     }
 
-    protected void Awake()
+    protected virtual void Awake()
     {
 
     }
 
     // Use this for initialization
-    void Start () {
+    protected virtual void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    protected virtual void FixedUpdate() {
 		
 	}
 

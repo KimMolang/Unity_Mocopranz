@@ -38,6 +38,8 @@ public class CharacterSkillController : MonoBehaviour {
     {
         skillCheckInfo[(int)_skillInputType].state = SkillState.End;
         skillCheckInfo[(int)_skillInputType].coolTimer = _coolTime;
+
+        fsmPlyer.SetState(CharacterState.Idle, CharacterAnimationState.Idle);
     }
 
     public void ClearAllCoolTime()
@@ -51,11 +53,6 @@ public class CharacterSkillController : MonoBehaviour {
 
     // Use this for initialization
     private void Start () {
-		
-	}
-
-    // Update is called once per frame
-    private void Update () {
 		
 	}
 

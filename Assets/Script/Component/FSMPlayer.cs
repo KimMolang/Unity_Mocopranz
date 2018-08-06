@@ -15,11 +15,6 @@ public class FSMPlayer : FSMBase
         charSkillController = this.gameObject.GetComponent<CharacterSkillController>();
     }
 
-    protected void Update()
-    {
-
-    }
-
     protected override IEnumerator Idle()
     {
         switch (characterAnimationState)
@@ -71,10 +66,6 @@ public class FSMPlayer : FSMBase
         {
             yield return null;
 
-            // (Need a mpodification)
-            // 사용 중이던 스킬이 끝났습니다.
-            // 그러면 대기 상태로 바꿔야함
-            //if(charSkillController)
         } while (!isNewCharacterState);
     }
 }
