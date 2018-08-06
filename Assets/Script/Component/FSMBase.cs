@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Character State Info
+ * Update Character Animation
+ */
 
 [RequireComponent(typeof(Animator))]
 public class FSMBase : MonoBehaviour
 {
     protected Animator animator;
 
-
-    public CharacterState characterState;
-    public CharacterAnimationState characterAnimationState;
+    protected CharacterState characterState;
+    protected ChracterDamagedState characterDamagedState;
+    protected CharacterAnimationState characterAnimationState;
+    
 
     public bool isNewCharacterState;
 
@@ -23,6 +28,7 @@ public class FSMBase : MonoBehaviour
     protected virtual void OnEnable()
     {
         characterState = CharacterState.Idle;
+        characterDamagedState = ChracterDamagedState.None;
         characterAnimationState = CharacterAnimationState.Idle;
 
         StartCoroutine(FSMMain());
@@ -75,5 +81,48 @@ public class FSMBase : MonoBehaviour
             yield return null;
 
         } while (!isNewCharacterState);
+    }
+
+    public bool IsAbleToUseSkill()
+    {
+        //protected CharacterState characterState;
+        // protected CharacterAnimationState characterAnimationState;
+
+        switch(characterState)
+        {
+            case CharacterState.Idle:
+                return true;
+
+            case CharacterState.Moving:
+                return true;
+
+            case CharacterState.Attack:
+                return false;   // 이미 다른 스킬을 사용하고 있다.
+
+            case CharacterState.Damaged:
+                switch(characterDamagedState)
+                {
+                    case ChracterDamagedState.None:
+                        return true;
+
+                    case ChracterDamagedState.Normal:
+                        return true;
+
+                    case ChracterDamagedState.Stiffen :
+                        return false;
+
+                    case ChracterDamagedState.Down:
+                        return false;
+                }
+                return false;
+
+            case CharacterState.WakeUp:
+                return false;
+
+            case CharacterState.Die:
+                return false;
+        }
+
+        return false;
     }
 }

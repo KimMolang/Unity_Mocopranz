@@ -74,8 +74,9 @@ public class ObjectMgr : MonoBehaviour {
                 = Resources.Load("Prefab/AttackBox") as GameObject;
 
 
-        // (Need a Modify)
+        // (Need a modification)
         // 이펙트 인덱스로 찾아야함. ex) _attackInfo.effectIndex
+        // 파싱할 때 같이 생각할 것
         commonEffectList = new GameObject[(int)CommonEffectType.MAX];
 
         commonEffectList[(int)CommonEffectType.Hit]
@@ -84,7 +85,7 @@ public class ObjectMgr : MonoBehaviour {
 
     static public GameObject CreateSkill(string _strScripName, GameObject _owner)
     {
-        // (수정) 오브젝트 풀
+        // (Need a modification) 오브젝트 풀 (Destroy 랑 새로 생성하는 곳 다 확인해야함)
         if (_owner == null)
             return null;
 

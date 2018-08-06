@@ -4,8 +4,10 @@ using UnityEngine;
 
 public struct AttackInfo
 {
-    public float nextInputWatingTime;
-    public KeyCode nextInput;
+    public KeyCode needInput;  // 필요한 Input 정보
+    public float waitingTime;
+    // 1) needInput 이 KeyCode.None 일 경우 : 해당 시간이 지나면 자동으로 발동된다.
+    // 2) needInput 이 KeyCode.None 이 아닐 경우 : 해당 시간 안에 needInput 을 입력하면 발동된다.
 
     //public GameObject owner;
     public string ownerAnimationName;
@@ -30,13 +32,13 @@ public class Skill : MonoBehaviour {
 
     [Header("Skill Base Info")]
     [SerializeField]
-    private float startDeleyTime = 0.0f;    // 스킬 사용 후 발동하기 까지
+    protected float startDeleyTime = 0.0f;    // 스킬 사용 후 발동하기 까지
     [SerializeField]
-    private float latterDeleyTime = 0.0f;   // 스킬 사용 후 캐릭터가 Idle 상태로 가기까지
+    protected float latterDeleyTime = 0.0f;   // 스킬 사용 후 캐릭터가 Idle 상태로 가기까지
     [SerializeField]
-    private float coolTime = 0.2f;
+    protected float coolTime = 0.2f;
     [SerializeField]
-    private bool isMovable = false; // 움직이면서 사용할 수 있는 스킬입니까?
+    protected bool isMovable = false; // 움직이면서 사용할 수 있는 스킬입니까?
 
     // 방향키 속성
     // ex) 앞 키를 누르고 있으면 조금 더 앞으로 감

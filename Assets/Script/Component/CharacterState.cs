@@ -7,13 +7,16 @@ public enum CharacterState
     Attack,
     Damaged,
 
-    Unbeatable, // 무적
+    WakeUp, // 기상 중
+    //Unbeatable, // 무적
 
     Die
 }
 
 public enum ChracterDamagedState
 {
+    None,
+
     Normal,
     Stiffen,
 

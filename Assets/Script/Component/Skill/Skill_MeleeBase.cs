@@ -16,9 +16,11 @@ public class Skill_MeleeBase : Skill
 
     void Awake()
     {
-        // (Need a modify)
+        // (Need a modification)
         // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
         // 초기화하는 작업 해야겠어용
+        coolTime = 3.0f;
+
         attackInfoList = new AttackInfo[continuousAttackNum];
         
 
@@ -28,24 +30,25 @@ public class Skill_MeleeBase : Skill
         attackBoxInfo.aliveTime = 1.0f;
 
         AttackInfo attackInfo = new AttackInfo();
-        attackInfo.nextInputWatingTime = 0.0f;
-        attackInfo.nextInput = KeyCode.None;
+        attackInfo.waitingTime = 0.0f;
+        attackInfo.needInput = KeyCode.None;
         attackInfo.attackBox = attackBoxInfo;
         attackInfo.effectIndex = 0;
         attackInfo.effectOffset = new Vector3(0.0f, 1.0f, 1.0f);
+        attackInfo.ownerAnimationName = "ML_0";
+        attackInfo.needInput = KeyCode.None;
 
         attackInfoList[0] = attackInfo;
-        attackInfoList[0].ownerAnimationName = "ML_0";
 
-        attackInfo.nextInputWatingTime = 0.8f;
-        attackInfo.nextInput = KeyCode.Mouse0;
+        attackInfo.waitingTime = 1.0f;
+        attackInfo.needInput = KeyCode.Mouse0;
+        attackInfo.ownerAnimationName = "ML_1";
         attackInfoList[1] = attackInfo;
-        attackInfoList[1].ownerAnimationName = "ML_1";
 
-        attackInfo.nextInputWatingTime = 0.8f;
-        attackInfo.nextInput = KeyCode.Mouse0;
+        attackInfo.waitingTime = 1.0f;
+        attackInfo.needInput = KeyCode.Mouse0;
+        attackInfo.ownerAnimationName = "ML_2";
         attackInfoList[2] = attackInfo;
-        attackInfoList[2].ownerAnimationName = "ML_2";
     }
 
     // Use this for initialization
@@ -64,9 +67,31 @@ public class Skill_MeleeBase : Skill
         timer += Time.deltaTime;
 
         AttackInfo attacInfo = attackInfoList[curContinuousAttackCnt];
+        bool isReadyToReleasAttack = false;
 
-        // (수정) 키 입력 시 발동 되도록
-        if ( timer >= attacInfo.nextInputWatingTime )
+        if(attacInfo.needInput == KeyCode.None )
+        {
+            if (timer >= attacInfo.waitingTime)
+            {
+                isReadyToReleasAttack = true;
+            }
+        }
+        else // (Need a midify) 키 입력 시 발동 되도록
+        {
+            if ( timer < attacInfo.waitingTime )
+            {
+                if ( Input.GetKeyDown(attacInfo.needInput) )
+                {
+                    isReadyToReleasAttack = true;
+                }
+            }
+            else if( timer >= attacInfo.waitingTime )
+            {
+                curContinuousAttackCnt = continuousAttackNum;
+            }
+        }
+
+        if( isReadyToReleasAttack )
         {
             timer = 0.0f;
 
@@ -80,5 +105,9 @@ public class Skill_MeleeBase : Skill
         {
             Destroy(this.gameObject); // Destroy(bin);
         }
+
+        // 쿨타임은 누가 체크하지
+        // 발동하자마자 쿨타임을
+        // 캐릭터 상태
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(FSMPlayer))]
-public class CharacterController : MonoBehaviour {
+public class CharacterMovingController : MonoBehaviour {
 
     [Header("Ratating And Moving")]
     [SerializeField] [Range(1.0f, 10.0f)] private float mouseSensitivity = 8.0f;
@@ -31,17 +31,20 @@ public class CharacterController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        CheckKey();
+        CheckSkillKey();
 
         UpdateRotation();
         UpdateMoving();
     }
 
 
-    private void CheckKey()
+    private void CheckSkillKey()
     {
-        // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
-        // 초기화하는 작업 해야겠어용
+        if (fsmPlyer.IsAbleToUseSkill() == false)
+            return;
+
+        // 각 스킬 쿨 타임 체크는 따로 하자 (지금)
+        // (Need a modification)
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             ObjectMgr.CreateSkill("Skill_MeleeBase", this.gameObject);
@@ -52,6 +55,8 @@ public class CharacterController : MonoBehaviour {
 
     private void UpdateRotation()
     {
+        // Check This character able to rotate
+
         float fHorizontalRotation = Input.GetAxis("Mouse X") * mouseSensitivity;
         //float fVerticalRotation = -1 * (Input.GetAxis("Mouse Y") * mouseSensitivity);
         // 이건 UI에 사용하자
@@ -67,6 +72,8 @@ public class CharacterController : MonoBehaviour {
 
     private void UpdateMoving()
     {
+        // Check This character able to move
+
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
