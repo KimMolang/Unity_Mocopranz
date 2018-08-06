@@ -28,6 +28,7 @@ public struct AttackBoxInfo
     public float aliveTime;
 }
 
+
 public class Skill : MonoBehaviour {
 
     [Header("Skill Base Info")]
@@ -39,6 +40,7 @@ public class Skill : MonoBehaviour {
     protected float coolTime = 0.2f;
     [SerializeField]
     protected bool isMovable = false; // 움직이면서 사용할 수 있는 스킬입니까?
+
 
     // 방향키 속성
     // ex) 앞 키를 누르고 있으면 조금 더 앞으로 감
@@ -55,6 +57,11 @@ public class Skill : MonoBehaviour {
         ownCharacter = _own;
         ownCharacterAnimator = ownCharacter.GetComponent<Animator>();
         ownCharacterController = ownCharacter.GetComponent<CharacterController>();
+    }
+
+    protected void Awake()
+    {
+
     }
 
     // Use this for initialization
@@ -95,5 +102,13 @@ public class Skill : MonoBehaviour {
 
 
         return attackBox;
+    }
+
+    protected void Finish()
+    {
+        // (Need a modification) 스크립트에서 정보 다 가져와야합니다.
+        ownCharacter.GetComponent<CharacterSkillController>().StartCoolTimer(SkillInputType.Button_ML, coolTime);
+
+        Destroy(this.gameObject); // Destroy(bin); // temp
     }
 }

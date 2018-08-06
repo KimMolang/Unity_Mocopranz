@@ -2,12 +2,17 @@
 using System.Collections;
 
 
+[RequireComponent(typeof(CharacterSkillController))]
 public class FSMPlayer : FSMBase
 {
+    CharacterSkillController charSkillController;
+
 
     protected override void Awake()
     {
         base.Awake();
+
+        charSkillController = this.gameObject.GetComponent<CharacterSkillController>();
     }
 
     protected void Update()
@@ -66,6 +71,10 @@ public class FSMPlayer : FSMBase
         {
             yield return null;
 
+            // (Need a mpodification)
+            // 사용 중이던 스킬이 끝났습니다.
+            // 그러면 대기 상태로 바꿔야함
+            //if(charSkillController)
         } while (!isNewCharacterState);
     }
 }

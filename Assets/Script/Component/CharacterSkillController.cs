@@ -2,31 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Aim, 스킬 관련 UI도 업데이트 해줄 예정이당
+
+public enum SkillState
+{
+    Available,
+    Working,
+    End
+}
+
+struct SkillCheckInfo
+{
+    public SkillState state;
+
+    public float coolTime;
+    public float coolTimer;
+}
+
+
 [RequireComponent(typeof(FSMPlayer))]
 public class CharacterSkillController : MonoBehaviour {
 
     private FSMPlayer fsmPlyer;
-    private float[] coolTimer;
+    private SkillCheckInfo[] skillCheckInfo;
 
     private void Awake()
     {
         fsmPlyer = this.gameObject.GetComponent<FSMPlayer>();
 
-        // cool timer
-        coolTimer = new float[(int)SkillInputType.MAX];
+        skillCheckInfo = new SkillCheckInfo[(int)SkillInputType.MAX];
         ClearAllCoolTime();
     }
 
-    public void SetCoolTime(SkillInputType _skillInputType, float _coolTime)
+    public void StartCoolTimer(SkillInputType _skillInputType, float _coolTime)
     {
-        coolTimer[(int)_skillInputType] = _coolTime;
+        skillCheckInfo[(int)_skillInputType].state = SkillState.End;
+        skillCheckInfo[(int)_skillInputType].coolTimer = _coolTime;
     }
 
     public void ClearAllCoolTime()
     {
-        for (int i = 0; i < coolTimer.Length; ++i)
+        for (int i = 0; i < skillCheckInfo.Length; ++i)
         {
-            coolTimer[i] = -1.0f;
+            skillCheckInfo[i].state = SkillState.Available;
+            skillCheckInfo[i].coolTimer = -1.0f;
         }
     }
 
@@ -50,16 +69,19 @@ public class CharacterSkillController : MonoBehaviour {
 
     private void UpdateSkillCoolTime()
     {
-        for (int i = 0; i < coolTimer.Length; ++i)
+        for (int i = 0; i < skillCheckInfo.Length; ++i)
         {
-            if (coolTimer[i] < 0.0f)
+            if (skillCheckInfo[i].state != SkillState.End)
                 continue;
 
 
-            coolTimer[i] -= Time.fixedDeltaTime;
+            skillCheckInfo[i].coolTimer -= Time.fixedDeltaTime;
 
-            if (coolTimer[i] <= 0.0f)
-                coolTimer[i] = -1.0f;
+            if (skillCheckInfo[i].coolTimer <= 0.0f)
+            {
+                skillCheckInfo[i].state = SkillState.Available;
+                skillCheckInfo[i].coolTimer = -1.0f;
+            }
         }
     }
 
@@ -79,10 +101,12 @@ public class CharacterSkillController : MonoBehaviour {
         // 이거 다 스크립트
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if(coolTimer[0] < 0.0f) // coolTimer[0] -1 일 경우 스킬 사용 가능 상태
+            if(skillCheckInfo[0].state == SkillState.Available) // coolTimer[0] -1 일 경우 스킬 사용 가능 상태
             {
                 ObjectMgr.CreateSkill("Skill_MeleeBase", this.gameObject);
-                this.SetCoolTime(SkillInputType.Button_ML, 5.0f); // test
+                skillCheckInfo[0].state = SkillState.Working;
+
+                fsmPlyer.SetState(CharacterState.Attack, CharacterAnimationState.Attack_ML);
             }
         }
     }

@@ -16,6 +16,7 @@ public class Skill_MeleeBase : Skill
 
     void Awake()
     {
+        base.Awake();
         // (Need a modification)
         // 이 데이터를 스크립트에 넣으면 각 해당하는 스킬 마다
         // 초기화하는 작업 해야겠어용
@@ -103,11 +104,7 @@ public class Skill_MeleeBase : Skill
 
         if (curContinuousAttackCnt >= continuousAttackNum)
         {
-            Destroy(this.gameObject); // Destroy(bin);
+            base.Finish();
         }
-
-        // 쿨타임은 누가 체크하지
-        // 발동하자마자 쿨타임을
-        // 캐릭터 상태
     }
 }
