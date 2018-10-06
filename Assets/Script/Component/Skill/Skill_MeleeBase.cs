@@ -62,12 +62,12 @@ public class Skill_MeleeBase : Skill
         AdditionMovement additionMovementInfo_none;
         additionMovementInfo_none.needInput = KeyCode.None;
         additionMovementInfo_none.duringTime = 0.2f;
-        additionMovementInfo_none.additionMovement = new Vector3(0.0f, 0.0f, 1.0f);
+        additionMovementInfo_none.additionMovement = new Vector3(0.0f, 0.0f, 0.5f);
 
         AdditionMovement additionMovementInfo_w;
         additionMovementInfo_w.needInput = KeyCode.W;
         additionMovementInfo_w.duringTime = 0.2f;
-        additionMovementInfo_w.additionMovement = new Vector3(0.0f, 0.0f, 0.5f);
+        additionMovementInfo_w.additionMovement = new Vector3(0.0f, 0.0f, 1.0f);
 
         AdditionMovement additionMovementInfo_s;
         additionMovementInfo_s.needInput = KeyCode.S;

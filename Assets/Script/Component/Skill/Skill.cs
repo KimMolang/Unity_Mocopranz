@@ -178,8 +178,13 @@ public abstract class Skill : MonoBehaviour {
 
 
             additionMovementTimer = _additionMovementInfoList[i].duringTime;
-            additionMovementPerFixedTime
-                = (_additionMovementInfoList[i].additionMovement * Time.fixedDeltaTime) / additionMovementTimer;
+
+            additionMovementPerFixedTime.x
+                = (_additionMovementInfoList[i].additionMovement.x * Time.fixedDeltaTime) / additionMovementTimer;
+            additionMovementPerFixedTime.y
+                = (_additionMovementInfoList[i].additionMovement.y * Time.fixedDeltaTime) / additionMovementTimer;
+            additionMovementPerFixedTime.z
+                = (_additionMovementInfoList[i].additionMovement.z * Time.fixedDeltaTime) / additionMovementTimer;
             break;
         }
 
