@@ -117,6 +117,9 @@ public abstract class Skill : MonoBehaviour {
                 UpdateEndDelayTimer();
                 break;
         }
+
+
+        UpdateAdditionMovement();
     }
 
     protected GameObject CreateAttackBox(AttackInfo _attackInfo)
@@ -158,6 +161,7 @@ public abstract class Skill : MonoBehaviour {
         if (isMovable == false)
             return false;
 
+
         int infoNum = _additionMovementInfoList.Length;
 
         for (int i = 0; i < infoNum; ++i)
@@ -185,6 +189,7 @@ public abstract class Skill : MonoBehaviour {
                 = (_additionMovementInfoList[i].additionMovement.y * Time.fixedDeltaTime) / additionMovementTimer;
             additionMovementPerFixedTime.z
                 = (_additionMovementInfoList[i].additionMovement.z * Time.fixedDeltaTime) / additionMovementTimer;
+
             break;
         }
 
@@ -248,8 +253,6 @@ public abstract class Skill : MonoBehaviour {
     {
         // If the function of work is done, you have to call a function
         // of SetSkillDelayStateToEnd() in it.
-
-        UpdateAdditionMovement();
     }
 
     protected virtual void Finish()
