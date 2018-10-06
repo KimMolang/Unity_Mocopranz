@@ -7,8 +7,6 @@ public class Skill_MeleeBase : Skill
     [Header("Continuous Attack Info")]
     [SerializeField] private int continuousAttackNum = 3;
 
-    [SerializeField] private AttackInfo[] attackInfoList;
-
 
     private int curContinuousAttackCnt = 0;
 
@@ -33,7 +31,8 @@ public class Skill_MeleeBase : Skill
         attackBoxInfo.aliveTime = 1.0f;
 
         AttackInfo attackInfo = new AttackInfo();
-        attackInfo.waitingTime = 0.0f;
+        attackInfo.inputDelayTime = 0.0f;
+        attackInfo.nextSkillTimeOrinputWaitingTime = 0.0f;
         attackInfo.needInput = KeyCode.None;
         attackInfo.attackBox = attackBoxInfo;
         attackInfo.effectIndex = 0;
@@ -43,15 +42,52 @@ public class Skill_MeleeBase : Skill
 
         attackInfoList[0] = attackInfo;
 
-        attackInfo.waitingTime = 1.0f;
+        attackInfo.inputDelayTime = 0.1f;
+        attackInfo.nextSkillTimeOrinputWaitingTime = 0.9f;
         attackInfo.needInput = KeyCode.Mouse0;
         attackInfo.ownerAnimationName = "ML_1";
         attackInfoList[1] = attackInfo;
 
-        attackInfo.waitingTime = 1.0f;
+        attackInfo.inputDelayTime = 0.1f;
+        attackInfo.nextSkillTimeOrinputWaitingTime = 0.9f;
         attackInfo.needInput = KeyCode.Mouse0;
         attackInfo.ownerAnimationName = "ML_2";
         attackInfoList[2] = attackInfo;
+
+
+        // (Need a modification)
+        // AdditionMovement Test
+        isMovable = true;
+
+        AdditionMovement additionMovementInfo_none;
+        additionMovementInfo_none.needInput = KeyCode.None;
+        additionMovementInfo_none.duringTime = 0.2f;
+        additionMovementInfo_none.additionMovement = new Vector3(0.0f, 0.0f, 1.0f);
+
+        AdditionMovement additionMovementInfo_w;
+        additionMovementInfo_w.needInput = KeyCode.W;
+        additionMovementInfo_w.duringTime = 0.2f;
+        additionMovementInfo_w.additionMovement = new Vector3(0.0f, 0.0f, 0.5f);
+
+        AdditionMovement additionMovementInfo_s;
+        additionMovementInfo_s.needInput = KeyCode.S;
+        additionMovementInfo_s.duringTime = 0.2f;
+        additionMovementInfo_s.additionMovement = new Vector3(0.0f, 0.0f, 0.0f);
+
+        attackInfoList[0].additionMovementList = new AdditionMovement[3];
+        attackInfoList[0].additionMovementList[0] = additionMovementInfo_none;
+        attackInfoList[0].additionMovementList[1] = additionMovementInfo_w;
+        attackInfoList[0].additionMovementList[2] = additionMovementInfo_s;
+
+        attackInfoList[1].additionMovementList = new AdditionMovement[3];
+        attackInfoList[1].additionMovementList[0] = additionMovementInfo_none;
+        attackInfoList[1].additionMovementList[1] = additionMovementInfo_w;
+        attackInfoList[1].additionMovementList[2] = additionMovementInfo_s;
+
+        attackInfoList[2].additionMovementList = new AdditionMovement[3];
+        attackInfoList[2].additionMovementList[0] = additionMovementInfo_none;
+        attackInfoList[2].additionMovementList[1] = additionMovementInfo_w;
+        attackInfoList[2].additionMovementList[2] = additionMovementInfo_s;
     }
 
     // Use this for initialization
@@ -72,7 +108,7 @@ public class Skill_MeleeBase : Skill
         if (attacInfo.needInput == KeyCode.None)
         {
             // Process it automatically.
-            if (timer >= attacInfo.waitingTime)
+            if (timer >= attacInfo.nextSkillTimeOrinputWaitingTime)
             {
                 isReadyToReleasAttack = true;
             }
@@ -80,20 +116,20 @@ public class Skill_MeleeBase : Skill
         else // 2) Need user key input
         {
             // Key must be entered within the attacInfo.waitingTime.
-            if (timer < attacInfo.waitingTime)
+            if (attacInfo.inputDelayTime <= timer && timer < attacInfo.nextSkillTimeOrinputWaitingTime)
             {
                 if (Input.GetKeyDown(attacInfo.needInput))
                 {
                     isReadyToReleasAttack = true;
                 }
             }
-            else if (timer >= attacInfo.waitingTime)
+            else if (timer >= attacInfo.nextSkillTimeOrinputWaitingTime)
             {
                 //Debug.Log(attacInfo.waitingTime);
                 curContinuousAttackCnt = continuousAttackNum;
 
                 // Reduce endDelayTime as player wait for the key input
-                endDelayTime -= attacInfo.waitingTime;
+                endDelayTime -= attacInfo.nextSkillTimeOrinputWaitingTime;
             }
         }
 
@@ -103,6 +139,7 @@ public class Skill_MeleeBase : Skill
             timer = 0.0f;
 
             CreateAttackBox(attacInfo);
+            SetAdditionMovement(attacInfo.additionMovementList);
 
             ownCharacterAnimator.CrossFade(attacInfo.ownerAnimationName, 0.1f);
             ++curContinuousAttackCnt;
@@ -111,9 +148,12 @@ public class Skill_MeleeBase : Skill
 
         if (curContinuousAttackCnt >= continuousAttackNum)
         {
-            // If working is done, you have to call this function.
+            // If the function of work is done, you have to call this function.
             SetSkillDelayStateToEnd();
         }
+
+
+        base.Work();
     }
 
     protected override void Finish()

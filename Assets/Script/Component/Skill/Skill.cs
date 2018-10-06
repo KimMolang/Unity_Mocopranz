@@ -4,8 +4,9 @@ using UnityEngine;
 
 public struct AttackInfo
 {
+    public float inputDelayTime;
     public KeyCode needInput;  // 필요한 Input 정보
-    public float waitingTime;
+    public float nextSkillTimeOrinputWaitingTime;
     // 1) needInput 이 KeyCode.None 일 경우 : 해당 시간이 지나면 자동으로 발동된다.
     // 2) needInput 이 KeyCode.None 이 아닐 경우 : 해당 시간 안에 needInput 을 입력하면 발동된다.
 
@@ -16,6 +17,7 @@ public struct AttackInfo
     public Vector3 effectOffset;
 
     public AttackBoxInfo attackBox;
+    public AdditionMovement[] additionMovementList;
 }
 
 public struct AttackBoxInfo
@@ -26,6 +28,13 @@ public struct AttackBoxInfo
     public Vector3 size;
 
     public float aliveTime;
+}
+
+public struct AdditionMovement
+{
+    public KeyCode needInput;
+    public float   duringTime;
+    public Vector3 additionMovement;
 }
 
 public enum SkillDelayState
@@ -46,12 +55,12 @@ public abstract class Skill : MonoBehaviour {
     protected float coolTime = 0.2f;
     [SerializeField]
     protected bool isMovable = false; // 움직이면서 사용할 수 있는 스킬입니까?
-
-
     // 방향키 속성
     // ex) 앞 키를 누르고 있으면 조금 더 앞으로 감
     // ex) 뒷 키 누르면 제자리
     // ex) 아무것도 안 누르면 조금 전진
+
+    [SerializeField] protected AttackInfo[] attackInfoList;
 
 
     protected GameObject ownCharacter;
@@ -140,6 +149,59 @@ public abstract class Skill : MonoBehaviour {
         return attackBox;
     }
 
+
+    private float additionMovementTimer = -1.0f;
+    private Vector3 additionMovementPerFixedTime;
+
+    protected bool SetAdditionMovement(AdditionMovement[] _additionMovementInfoList)
+    {
+        if (isMovable == false)
+            return false;
+
+        int infoNum = _additionMovementInfoList.Length;
+
+        for (int i = 0; i < infoNum; ++i)
+        {
+            if(_additionMovementInfoList[i].needInput == KeyCode.None)
+            {
+                // (Need a modification) 인풋 관련된 건 다 싹다 다꿔야 할 듯
+                // 그리고 이동 관련 인풋 누르고 있는지 아닌지 확인하는 함수 만들기
+                if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) 
+                    || Input.GetKey(KeyCode.A)  || Input.GetKey(KeyCode.D) )
+                    continue;
+            }
+            else
+            {
+                if (Input.GetKey(_additionMovementInfoList[i].needInput) == false)
+                    continue;
+            }
+
+
+            additionMovementTimer = _additionMovementInfoList[i].duringTime;
+            additionMovementPerFixedTime
+                = (_additionMovementInfoList[i].additionMovement * Time.fixedDeltaTime) / additionMovementTimer;
+            break;
+        }
+
+        return true;
+    }
+
+    protected void UpdateAdditionMovement()
+    {
+        if (additionMovementTimer < 0.0f)
+            return;
+
+
+        additionMovementTimer -= Time.fixedDeltaTime;
+
+        ownCharacter.transform.position += (ownCharacter.transform.right * additionMovementPerFixedTime.x);
+        ownCharacter.transform.position += (ownCharacter.transform.up * additionMovementPerFixedTime.y);
+        ownCharacter.transform.position += (ownCharacter.transform.forward * additionMovementPerFixedTime.z);
+
+        if (additionMovementTimer <= 0.0f)
+            additionMovementTimer = -1.0f;
+    }
+
     protected bool UpdateStartDelayTimer()
     {
         //if (skillDelayState != SkillDelayState.Start)
@@ -179,7 +241,10 @@ public abstract class Skill : MonoBehaviour {
 
     protected virtual void Work()
     {
-        // You have to call a function of SetSkillDelayStateToEnd().
+        // If the function of work is done, you have to call a function
+        // of SetSkillDelayStateToEnd() in it.
+
+        UpdateAdditionMovement();
     }
 
     protected virtual void Finish()
