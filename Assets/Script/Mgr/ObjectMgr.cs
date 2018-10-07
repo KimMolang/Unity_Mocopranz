@@ -20,8 +20,8 @@ public class ObjectMgr : MonoBehaviour {
         MAX
     }
 
-    static public GameObject[] commonObjectList;
-    static public GameObject[] commonEffectList;
+    /*static*/ public GameObject[] commonObjectList;
+    /*static*/ public GameObject[] commonEffectList;
 
 
     private static ObjectMgr _instance;
@@ -87,7 +87,7 @@ public class ObjectMgr : MonoBehaviour {
     // Character Skill // PreLoad (Skill data preroad) // (Need a modification)
     //private GameObject[] playerCharacterSkillObjectList;
 
-    static public GameObject CreateSkill(string _strScripName, GameObject _owner)
+    public GameObject CreateSkill(string _strScripName, GameObject _owner)
     {
         // (Need a modification) 오브젝트 풀 (Destroy 랑 새로 생성하는 곳 다 확인해야함)
         if (_owner == null)
@@ -95,7 +95,7 @@ public class ObjectMgr : MonoBehaviour {
 
 
         GameObject binForCreatingSkill
-                = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.Bin]);
+                = Instantiate(commonObjectList[(int)CommonObjectType.Bin]);
 
 
         Skill componentSkill = null;

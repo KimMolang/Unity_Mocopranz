@@ -172,7 +172,7 @@ public abstract class Skill : MonoBehaviour {
             return null;
 
         GameObject attackBox
-            = Instantiate(ObjectMgr.commonObjectList[(int)ObjectMgr.CommonObjectType.AttackBox]
+            = Instantiate(ObjectMgr.getInstance.commonObjectList[(int)ObjectMgr.CommonObjectType.AttackBox]
                 , ownCharacter.transform.position
                 , ownCharacter.transform.rotation);
 
@@ -184,7 +184,7 @@ public abstract class Skill : MonoBehaviour {
 
 
         GameObject effect
-            = Instantiate(ObjectMgr.commonEffectList[_attackInfo.effectIndex]
+            = Instantiate(ObjectMgr.getInstance.commonEffectList[_attackInfo.effectIndex]
                 , ownCharacter.transform.position
                 , ownCharacter.transform.rotation);
 
