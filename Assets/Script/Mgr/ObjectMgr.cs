@@ -83,6 +83,10 @@ public class ObjectMgr : MonoBehaviour {
                 = Resources.Load("Prefab/Hit") as GameObject;
     }
 
+
+    // Character Skill // PreLoad (Skill data preroad) // (Need a modification)
+    //private GameObject[] playerCharacterSkillObjectList;
+
     static public GameObject CreateSkill(string _strScripName, GameObject _owner)
     {
         // (Need a modification) 오브젝트 풀 (Destroy 랑 새로 생성하는 곳 다 확인해야함)

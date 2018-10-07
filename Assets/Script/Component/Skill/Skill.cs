@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Reflection;
 
+[System.Serializable]
 public struct AttackInfo
 {
     public float inputDelayTime;
@@ -20,6 +23,7 @@ public struct AttackInfo
     public AdditionMovement[] additionMovementList;
 }
 
+[System.Serializable]
 public struct AttackBoxInfo
 {
     public float delayTime;
@@ -30,6 +34,7 @@ public struct AttackBoxInfo
     public float aliveTime;
 }
 
+[System.Serializable]
 public struct AdditionMovement
 {
     public KeyCode needInput;
@@ -91,10 +96,49 @@ public abstract class Skill : MonoBehaviour {
         timer = 0.0f;
     }
 
-    // Use this for initialization
-    protected virtual void Start () {
-		
-	}
+    // (for test)
+    [SerializeField]
+    protected string testkk = "!!";
+    protected virtual void Start ()
+    {
+        // (for test)
+        // 오오오오 오짐
+        // https://docs.microsoft.com/en-us/dotnet/api/system.type.getproperties?view=netframework-4.7.2
+        Type type = this.GetType();
+        foreach( var iter in type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+        {
+            Debug.Log("Name : " + iter.Name);
+            Debug.Log("FieldType : " + iter.FieldType);
+            //Debug.Log("Type : " + iter.SetValue(this, ); // a
+
+            //System.Object curField = iter.GetValue(this);
+            //if( curField == null )
+            //    Debug.Log("Type : NULL");
+            //else
+            //    Debug.Log("Type : " + curField.GetType());
+
+            if (false)
+            {
+                foreach (var i in iter.FieldType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
+                {
+
+                }
+            }
+            
+        }
+
+        string firstName = (string)this.GetType().GetField("testkk",
+            System.Reflection.BindingFlags.NonPublic |
+            System.Reflection.BindingFlags.Instance).GetValue(this);
+
+        this.GetType().GetField("testkk",
+            System.Reflection.BindingFlags.NonPublic |
+            System.Reflection.BindingFlags.Instance).SetValue(this, "???"); // a
+
+        //AttackInfo test = (AttackInfo)this.GetType().GetField("attackInfoList",
+        //    System.Reflection.BindingFlags.NonPublic |
+        //    System.Reflection.BindingFlags.Instance).GetValue(this);
+    }
 
     // Update is called once per frame
     protected virtual void FixedUpdate()
