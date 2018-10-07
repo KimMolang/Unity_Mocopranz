@@ -14,9 +14,9 @@ public class FSMBase : MonoBehaviour
     protected CharacterState characterState;
     protected ChracterDamagedState characterDamagedState;
     protected CharacterAnimationState characterAnimationState;
-    
 
-    public bool isNewCharacterState;
+
+    protected bool isNewCharacterState;
 
 
 
