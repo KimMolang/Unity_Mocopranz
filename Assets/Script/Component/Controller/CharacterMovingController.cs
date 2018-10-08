@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using CharacterState;
+using CommonObjectName;
+using CommonObjectValue;
+
+
 [RequireComponent(typeof(FSMPlayer))]
 [RequireComponent(typeof(CharacterSkillController))]
 public class CharacterMovingController : MonoBehaviour {
@@ -15,10 +20,28 @@ public class CharacterMovingController : MonoBehaviour {
 
     private FSMPlayer fsmPlyer;
     private CharacterSkillController charSkillController;
+    [SerializeField] private GameObject followingCamera;
 
     private void Awake()
     {
         fsmPlyer = this.gameObject.GetComponent<FSMPlayer>();
+
+        // Seting Following Camera
+        if( followingCamera == null )
+        {
+            followingCamera = this.transform.Find(
+                CommonObjectName.SurroundingsOfCharacter.FOLLOWING_CAMERA).gameObject;
+
+            if (followingCamera == null)
+            {
+                followingCamera = new GameObject();
+                followingCamera.name
+                    = CommonObjectName.SurroundingsOfCharacter.FOLLOWING_CAMERA;
+                followingCamera.transform.parent = this.gameObject.transform;
+                followingCamera.transform.position = CommonObjectValue.DefaultPosition.FOLLOWING_CAMERA;
+                followingCamera.transform.rotation = CommonObjectValue.DefaultRotation.FOLLOWING_CAMERA;
+            }
+        }
     }
 
     // Use this for initialization
@@ -69,7 +92,7 @@ public class CharacterMovingController : MonoBehaviour {
 
         if (h == 0.0f && v == 0.0f)
         {
-            fsmPlyer.SetState(CharacterState.Idle, CharacterAnimationState.Idle);
+            fsmPlyer.SetState(CharacterBasicState.Idle, CharacterAnimationState.Idle);
             return;
         }
 
@@ -119,6 +142,6 @@ public class CharacterMovingController : MonoBehaviour {
         movement = movement.normalized * moveSpeed * Time.fixedDeltaTime;
         transform.position += movement;
 
-        fsmPlyer.SetState(CharacterState.Moving, animState);
+        fsmPlyer.SetState(CharacterBasicState.Moving, animState);
     }
 }

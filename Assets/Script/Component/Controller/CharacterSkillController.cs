@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using CharacterState;
+using InputType;
+
+// (Need a Modify)
 // Aim, 스킬 관련 UI도 업데이트 해줄 예정이당
 
 public enum SkillState
@@ -39,7 +43,7 @@ public class CharacterSkillController : MonoBehaviour {
         skillCheckInfo[(int)_skillInputType].state = SkillState.End;
         skillCheckInfo[(int)_skillInputType].coolTimer = _coolTime;
 
-        fsmPlyer.SetState(CharacterState.Idle, CharacterAnimationState.Idle);
+        fsmPlyer.SetState(CharacterBasicState.Idle, CharacterAnimationState.Idle);
     }
 
     public void ClearAllCoolTime()
@@ -103,7 +107,7 @@ public class CharacterSkillController : MonoBehaviour {
                 ObjectMgr.getInstance.CreateSkill("Skill_MeleeBase", this.gameObject);
                 skillCheckInfo[0].state = SkillState.Working;
 
-                fsmPlyer.SetState(CharacterState.Attack, CharacterAnimationState.Attack_ML);
+                fsmPlyer.SetState(CharacterBasicState.Attack, CharacterAnimationState.Attack_ML);
             }
         }
     }

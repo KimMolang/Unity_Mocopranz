@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using CharacterState;
+
 
 [RequireComponent(typeof(CharacterSkillController))]
 public class FSMPlayer : FSMBase

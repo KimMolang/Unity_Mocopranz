@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+using CommonObjectName;
+
+
 public class ObjectMgr : MonoBehaviour {
 
     public enum CommonObjectType
@@ -31,12 +34,12 @@ public class ObjectMgr : MonoBehaviour {
         {
             if (_instance == null)
             {
-                GameObject inMapMgrs = GameObject.Find("Mgrs");
+                GameObject inMapMgrs = GameObject.Find(CommonObjectName.Mgr.MGRS);
 
                 if (inMapMgrs == null)
                 {
                     inMapMgrs = new GameObject();
-                    inMapMgrs.name = "Mgrs";
+                    inMapMgrs.name = CommonObjectName.Mgr.MGRS;
                 }
 
                 _instance = inMapMgrs.GetComponent<ObjectMgr>();

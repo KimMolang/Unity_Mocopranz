@@ -4,6 +4,9 @@ using UnityEngine;
 using System;
 using System.Reflection;
 
+using InputType;
+
+
 [System.Serializable]
 public struct AttackInfo
 {

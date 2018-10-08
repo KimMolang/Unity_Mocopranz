@@ -53,7 +53,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Script\CharacterState.cs" />
      <Compile Include="Assets\Script\Component\CommonObject\AttackBox.cs" />
      <Compile Include="Assets\Script\Component\Controller\CharacterMovingController.cs" />
      <Compile Include="Assets\Script\Component\Controller\CharacterSkillController.cs" />
@@ -62,7 +61,9 @@
      <Compile Include="Assets\Script\Component\Skill\Skill.cs" />
      <Compile Include="Assets\Script\Component\Skill\Skill_MeleeBase.cs" />
      <Compile Include="Assets\Script\Component\Skill\Skill_MeleeRush.cs" />
-     <Compile Include="Assets\Script\InputType.cs" />
+     <Compile Include="Assets\Script\Header\CharacterState.cs" />
+     <Compile Include="Assets\Script\Header\CommonObject.cs" />
+     <Compile Include="Assets\Script\Header\InputType.cs" />
      <Compile Include="Assets\Script\Mgr\ObjectMgr.cs" />
      <Compile Include="Assets\Script\System\CSVRead.cs" />
      <Compile Include="Assets\TempResources\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Scripts\CameraController.cs" />

@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using CharacterState;
+
 /*
  * Character State Info
  * Update Character Animation
@@ -11,7 +13,7 @@ public class FSMBase : MonoBehaviour
 {
     protected Animator animator;
 
-    protected CharacterState characterState;
+    protected CharacterBasicState characterState;
     protected ChracterDamagedState characterDamagedState;
     protected CharacterAnimationState characterAnimationState;
 
@@ -27,7 +29,7 @@ public class FSMBase : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        characterState = CharacterState.Idle;
+        characterState = CharacterBasicState.Idle;
         characterDamagedState = ChracterDamagedState.None;
         characterAnimationState = CharacterAnimationState.Idle;
 
@@ -49,7 +51,7 @@ public class FSMBase : MonoBehaviour
     }
 
     //개체의 상태가 바뀔때마다 메소드가 실행된다.
-    public void SetState(CharacterState _newCharState, CharacterAnimationState _newCharAnimState)
+    public void SetState(CharacterBasicState _newCharState, CharacterAnimationState _newCharAnimState)
     {
         if (characterState == _newCharState && characterAnimationState == _newCharAnimState)
             return;
@@ -69,16 +71,16 @@ public class FSMBase : MonoBehaviour
     {
         switch (characterState)
         {
-            case CharacterState.Idle:
+            case CharacterBasicState.Idle:
                 return true;
 
-            case CharacterState.Moving:
+            case CharacterBasicState.Moving:
                 return true;
 
-            case CharacterState.Attack:
+            case CharacterBasicState.Attack:
                 return true;
 
-            case CharacterState.Damaged:
+            case CharacterBasicState.Damaged:
                 switch (characterDamagedState)
                 {
                     case ChracterDamagedState.None:
@@ -95,10 +97,10 @@ public class FSMBase : MonoBehaviour
                 }
                 return false;
 
-            case CharacterState.WakeUp:
+            case CharacterBasicState.WakeUp:
                 return false;
 
-            case CharacterState.Die:
+            case CharacterBasicState.Die:
                 return false;
         }
 
@@ -109,20 +111,20 @@ public class FSMBase : MonoBehaviour
     {
         switch (characterState)
         {
-            case CharacterState.Idle:
+            case CharacterBasicState.Idle:
                 return true;
 
-            case CharacterState.Moving:
+            case CharacterBasicState.Moving:
                 return true;
 
-            case CharacterState.Attack:
+            case CharacterBasicState.Attack:
                 {
                     // (Need a modification)
                     // 스킬 마다 다름
                 }
                 return false; // tmp
 
-            case CharacterState.Damaged:
+            case CharacterBasicState.Damaged:
                 switch (characterDamagedState)
                 {
                     case ChracterDamagedState.None:
@@ -139,10 +141,10 @@ public class FSMBase : MonoBehaviour
                 }
                 return false;
 
-            case CharacterState.WakeUp:
+            case CharacterBasicState.WakeUp:
                 return false;
 
-            case CharacterState.Die:
+            case CharacterBasicState.Die:
                 return false;
         }
 
@@ -153,16 +155,16 @@ public class FSMBase : MonoBehaviour
     {
         switch (characterState)
         {
-            case CharacterState.Idle:
+            case CharacterBasicState.Idle:
                 return true;
 
-            case CharacterState.Moving:
+            case CharacterBasicState.Moving:
                 return true;
 
-            case CharacterState.Attack:
+            case CharacterBasicState.Attack:
                 return false;   // 이미 다른 스킬을 사용하고 있다.
 
-            case CharacterState.Damaged:
+            case CharacterBasicState.Damaged:
                 switch (characterDamagedState)
                 {
                     case ChracterDamagedState.None:
@@ -179,10 +181,10 @@ public class FSMBase : MonoBehaviour
                 }
                 return false;
 
-            case CharacterState.WakeUp:
+            case CharacterBasicState.WakeUp:
                 return false;
 
-            case CharacterState.Die:
+            case CharacterBasicState.Die:
                 return false;
         }
 
