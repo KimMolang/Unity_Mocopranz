@@ -26,21 +26,18 @@ public class CharacterMovingController : MonoBehaviour {
     {
         fsmPlyer = this.gameObject.GetComponent<FSMPlayer>();
 
-        // Seting Following Camera
-        if( followingCamera == null )
-        {
-            followingCamera = this.transform.Find(
+        followingCamera = this.transform.Find(
                 CommonObjectName.SurroundingsOfCharacter.FOLLOWING_CAMERA).gameObject;
 
-            if (followingCamera == null)
-            {
-                followingCamera = new GameObject();
-                followingCamera.name
-                    = CommonObjectName.SurroundingsOfCharacter.FOLLOWING_CAMERA;
-                followingCamera.transform.parent = this.gameObject.transform;
-                followingCamera.transform.position = CommonObjectValue.DefaultPosition.FOLLOWING_CAMERA;
-                followingCamera.transform.rotation = CommonObjectValue.DefaultRotation.FOLLOWING_CAMERA;
-            }
+        // Seting Following Camera
+        if (followingCamera == null)
+        {
+            followingCamera = new GameObject();
+            followingCamera.name
+                = CommonObjectName.SurroundingsOfCharacter.FOLLOWING_CAMERA;
+            followingCamera.transform.parent = this.gameObject.transform;
+            followingCamera.transform.position = CommonObjectValue.DefaultPosition.FOLLOWING_CAMERA;
+            followingCamera.transform.rotation = CommonObjectValue.DefaultRotation.FOLLOWING_CAMERA;
         }
     }
 
