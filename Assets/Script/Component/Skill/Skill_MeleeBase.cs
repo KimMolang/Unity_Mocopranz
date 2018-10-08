@@ -35,7 +35,7 @@ public class Skill_MeleeBase : Skill
         attackInfo.nextSkillTimeOrinputWaitingTime = 0.0f;
         attackInfo.needInput = KeyCode.None;
         attackInfo.attackBox = attackBoxInfo;
-        attackInfo.effectIndex = 0;
+        attackInfo.commonEffectIndex = 0;
         attackInfo.effectOffset = new Vector3(0.0f, 1.0f, 1.0f);
         attackInfo.ownerAnimationName = "ML_0";
         attackInfo.needInput = KeyCode.None;

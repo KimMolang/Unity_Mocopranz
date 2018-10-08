@@ -4,27 +4,14 @@ using UnityEngine;
 using System;
 
 using CommonObjectName;
+using ResourceInformation;
 
 
-public class ObjectMgr : MonoBehaviour {
-
-    public enum CommonObjectType
-    {
-        Bin,
-        AttackBox,
-
-        MAX
-    }
-
-    public enum CommonEffectType
-    {
-        Hit,
-
-        MAX
-    }
-
-    /*static*/ public GameObject[] commonObjectList;
-    /*static*/ public GameObject[] commonEffectList;
+public class ObjectMgr : MonoBehaviour
+{
+    /*static*/ private GameObject[] commonObjectList;
+    /*static*/ private GameObject[] commonEffectList;
+    // (Need a modification) 공통 이펙트 말고 캐릭터별 이펙트는 어떡하지..?
 
 
     private static ObjectMgr _instance;
@@ -69,23 +56,42 @@ public class ObjectMgr : MonoBehaviour {
 
     private void RoadCommonObject()
     {
-        commonObjectList = new GameObject[(int)CommonObjectType.MAX];
 
-        commonObjectList[(int)CommonObjectType.Bin]
-                = Resources.Load("Prefab/Bin") as GameObject;
-        commonObjectList[(int)CommonObjectType.AttackBox]
-                = Resources.Load("Prefab/AttackBox") as GameObject;
+        commonObjectList
+            = new GameObject[(int)ResourceInformation.Object.CommonObject.MAX];
+
+        for(int i = 0; i < commonObjectList.Length; ++i)
+        {
+            ResourceInformation.Object.CommonObject index
+                = (ResourceInformation.Object.CommonObject)i;
+
+            commonObjectList[i]
+                = Resources.Load(ResourceInformation.Object.Path.COMMON_OBJECT + index.ToString()) as GameObject;
+        }
 
 
-        // (Need a modification)
-        // 이펙트 인덱스로 찾아야함. ex) _attackInfo.effectIndex
-        // 파싱할 때 같이 생각할 것
-        commonEffectList = new GameObject[(int)CommonEffectType.MAX];
+        commonEffectList
+            = new GameObject[(int)ResourceInformation.Effect.CommonEffec.MAX];
 
-        commonEffectList[(int)CommonEffectType.Hit]
-                = Resources.Load("Prefab/Hit") as GameObject;
+        for (int i = 0; i < commonEffectList.Length; ++i)
+        {
+            ResourceInformation.Effect.CommonEffec index
+                = (ResourceInformation.Effect.CommonEffec)i;
+
+            commonEffectList[i]
+                = Resources.Load(ResourceInformation.Effect.Path.COMMON_EFFECT + index.ToString()) as GameObject;
+        }
     }
 
+    public GameObject GetCommonObject(ResourceInformation.Object.CommonObject _index)
+    {
+        return commonObjectList[(int)_index];
+    }
+
+    public GameObject GetCommonEffect(ResourceInformation.Effect.CommonEffec _index)
+    {
+        return commonEffectList[(int)_index];
+    }
 
     // Character Skill // PreLoad (Skill data preroad) // (Need a modification)
     //private GameObject[] playerCharacterSkillObjectList;
@@ -98,7 +104,7 @@ public class ObjectMgr : MonoBehaviour {
 
 
         GameObject binForCreatingSkill
-                = Instantiate(commonObjectList[(int)CommonObjectType.Bin]);
+                = Instantiate(GetCommonObject(ResourceInformation.Object.CommonObject.Bin));
 
 
         Skill componentSkill = null;

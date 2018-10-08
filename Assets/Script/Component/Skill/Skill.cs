@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 
 using InputType;
+using ResourceInformation;
 
 
 [System.Serializable]
@@ -19,7 +20,8 @@ public struct AttackInfo
     //public GameObject owner;
     public string ownerAnimationName;
 
-    public int effectIndex;
+    public GameObject effect; // If this value is null, we use commonEffectIndex.
+    public ResourceInformation.Effect.CommonEffec commonEffectIndex;
     public Vector3 effectOffset;
 
     public AttackBoxInfo attackBox;
@@ -174,8 +176,9 @@ public abstract class Skill : MonoBehaviour {
         if (ownCharacter == null)
             return null;
 
+        // Attack box
         GameObject attackBox
-            = Instantiate(ObjectMgr.getInstance.commonObjectList[(int)ObjectMgr.CommonObjectType.AttackBox]
+            = Instantiate(ObjectMgr.getInstance.GetCommonObject(ResourceInformation.Object.CommonObject.AttackBox)
                 , ownCharacter.transform.position
                 , ownCharacter.transform.rotation);
 
@@ -186,10 +189,13 @@ public abstract class Skill : MonoBehaviour {
         attackBox.transform.position += (attackBox.transform.forward * _attackInfo.attackBox.offset.z);
 
 
-        GameObject effect
-            = Instantiate(ObjectMgr.getInstance.commonEffectList[_attackInfo.effectIndex]
-                , ownCharacter.transform.position
-                , ownCharacter.transform.rotation);
+        // Effect
+        GameObject effect = (_attackInfo.effect == null)
+            ? Instantiate(ObjectMgr.getInstance.GetCommonEffect(_attackInfo.commonEffectIndex))
+            : _attackInfo.effect;
+
+        effect.transform.position = ownCharacter.transform.position;
+        effect.transform.rotation = ownCharacter.transform.rotation;
 
         effect.transform.position += (effect.transform.right * _attackInfo.effectOffset.x);
         effect.transform.position += (effect.transform.up * _attackInfo.effectOffset.y);
