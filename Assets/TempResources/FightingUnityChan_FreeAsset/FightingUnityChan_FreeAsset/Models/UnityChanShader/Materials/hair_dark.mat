@@ -4,9 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: hair
+  m_Name: hair_dark
   m_Shader: {fileID: 4800000, guid: 235ca6f7bbc0ead4990f386a7ec24292, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -47,5 +47,5 @@ Material:
     - _FalloffPower: 0.5
     - _SpecularPower: 20
     m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.5378443, g: 0.3945354, b: 0.5849056, a: 1}
     - _ShadowColor: {r: 0.8, g: 0.8, b: 1, a: 1}

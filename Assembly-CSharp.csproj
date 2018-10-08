@@ -68,6 +68,7 @@
      <Compile Include="Assets\Script\Mgr\ObjectMgr.cs" />
      <Compile Include="Assets\Script\System\CSVRead.cs" />
      <Compile Include="Assets\Script\Tool_Character\DropdownCharacterList.cs" />
+     <Compile Include="Assets\Script\Tool_Character\DropdownSkillList.cs" />
      <Compile Include="Assets\TempResources\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Scripts\CameraController.cs" />
      <Compile Include="Assets\TempResources\FightingUnityChan_FreeAsset\FightingUnityChan_FreeAsset\Scripts\IdleChanger.cs" />
      <Compile Include="Assets\TempResources\JMO_Asset\Cartoon FX\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
