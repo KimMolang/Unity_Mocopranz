@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using SkillInformation;
 using CharacterState;
-using InputType;
 
 // (Need a Modify)
 // Aim, 스킬 관련 UI도 업데이트 해줄 예정이당
@@ -34,14 +34,14 @@ public class CharacterSkillController : MonoBehaviour {
     {
         fsmPlyer = this.gameObject.GetComponent<FSMPlayer>();
 
-        skillCheckInfo = new SkillCheckInfo[(int)SkillInputType.MAX];
+        skillCheckInfo = new SkillCheckInfo[(int)SkillType.MAX];
         ClearAllCoolTime();
     }
 
-    public void StartCoolTimer(SkillInputType _skillInputType, float _coolTime)
+    public void StartCoolTimer(SkillType _skillType, float _coolTime)
     {
-        skillCheckInfo[(int)_skillInputType].state = SkillState.End;
-        skillCheckInfo[(int)_skillInputType].coolTimer = _coolTime;
+        skillCheckInfo[(int)_skillType].state = SkillState.End;
+        skillCheckInfo[(int)_skillType].coolTimer = _coolTime;
 
         fsmPlyer.SetState(CharacterBasicState.Idle, CharacterAnimationState.Idle);
     }

@@ -11,17 +11,14 @@ public class ObjectMgr : SingletonBase<ObjectMgr>
 {
     /*static*/ private GameObject[] commonObjectList;
     /*static*/ private GameObject[] commonEffectList;
-    // (Need a modification) 공통 이펙트 말고 캐릭터별 이펙트는 어떡하지..?
+    // 공통 이펙트 말고 캐릭터별 이펙트는 각 스킬이 가지고 있습니다.
 
-    protected ObjectMgr()
+    protected ObjectMgr() { Init(); }
+
+    private void Init()
     {
         RoadCommonObject();
     }
-
-    //void Awake()
-    //{
-    //    RoadCommonObject();
-    //}
 
     private void RoadCommonObject()
     {

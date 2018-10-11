@@ -1,7 +1,7 @@
 ﻿
-namespace InputType
+namespace SkillInformation
 {
-    public enum SkillInputType
+    public enum SkillType
     {
         Button_ML,
         Button_Wheel,   // 캐릭터 교체

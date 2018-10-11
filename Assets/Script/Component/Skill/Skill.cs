@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Reflection;
 
-using InputType;
+using SkillInformation;
 using ResourceInformation;
 
 
@@ -13,7 +13,7 @@ public struct AttackInfo
 {
     public float inputDelayTime;
     public KeyCode needInput;  // 필요한 Input 정보
-    public float nextSkillTimeOrinputWaitingTime;
+    public float nextSkillTimeOrInputWaitingTime;
     // 1) needInput 이 KeyCode.None 일 경우 : 해당 시간이 지나면 자동으로 발동된다.
     // 2) needInput 이 KeyCode.None 이 아닐 경우 : 해당 시간 안에 needInput 을 입력하면 발동된다.
 
@@ -311,7 +311,7 @@ public abstract class Skill : MonoBehaviour {
     protected virtual void Finish()
     {
         // (Need a modification) 스크립트에서 정보 다 가져와야합니다.
-        ownCharacter.GetComponent<CharacterSkillController>().StartCoolTimer(SkillInputType.Button_ML, coolTime);
+        ownCharacter.GetComponent<CharacterSkillController>().StartCoolTimer(SkillType.Button_ML, coolTime);
 
         Destroy(this.gameObject); // Destroy(bin); // temp
     }

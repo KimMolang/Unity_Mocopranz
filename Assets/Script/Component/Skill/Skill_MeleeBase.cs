@@ -32,7 +32,7 @@ public class Skill_MeleeBase : Skill
 
         AttackInfo attackInfo = new AttackInfo();
         attackInfo.inputDelayTime = 0.0f;
-        attackInfo.nextSkillTimeOrinputWaitingTime = 0.0f;
+        attackInfo.nextSkillTimeOrInputWaitingTime = 0.0f;
         attackInfo.needInput = KeyCode.None;
         attackInfo.attackBox = attackBoxInfo;
         attackInfo.commonEffectIndex = 0;
@@ -43,13 +43,13 @@ public class Skill_MeleeBase : Skill
         attackInfoList[0] = attackInfo;
 
         attackInfo.inputDelayTime = 0.1f;
-        attackInfo.nextSkillTimeOrinputWaitingTime = 0.9f;
+        attackInfo.nextSkillTimeOrInputWaitingTime = 0.9f;
         attackInfo.needInput = KeyCode.Mouse0;
         attackInfo.ownerAnimationName = "ML_1";
         attackInfoList[1] = attackInfo;
 
         attackInfo.inputDelayTime = 0.1f;
-        attackInfo.nextSkillTimeOrinputWaitingTime = 0.9f;
+        attackInfo.nextSkillTimeOrInputWaitingTime = 0.9f;
         attackInfo.needInput = KeyCode.Mouse0;
         attackInfo.ownerAnimationName = "ML_2";
         attackInfoList[2] = attackInfo;
@@ -108,7 +108,7 @@ public class Skill_MeleeBase : Skill
         if (attacInfo.needInput == KeyCode.None)
         {
             // Process it automatically.
-            if (timer >= attacInfo.nextSkillTimeOrinputWaitingTime)
+            if (timer >= attacInfo.nextSkillTimeOrInputWaitingTime)
             {
                 isReadyToReleasAttack = true;
             }
@@ -116,20 +116,20 @@ public class Skill_MeleeBase : Skill
         else // 2) Need user key input
         {
             // Key must be entered within the attacInfo.waitingTime.
-            if (attacInfo.inputDelayTime <= timer && timer < attacInfo.nextSkillTimeOrinputWaitingTime)
+            if (attacInfo.inputDelayTime <= timer && timer < attacInfo.nextSkillTimeOrInputWaitingTime)
             {
                 if (Input.GetKeyDown(attacInfo.needInput))
                 {
                     isReadyToReleasAttack = true;
                 }
             }
-            else if (timer >= attacInfo.nextSkillTimeOrinputWaitingTime)
+            else if (timer >= attacInfo.nextSkillTimeOrInputWaitingTime)
             {
                 //Debug.Log(attacInfo.waitingTime);
                 curContinuousAttackCnt = continuousAttackNum;
 
                 // Reduce endDelayTime as player wait for the key input
-                endDelayTime -= attacInfo.nextSkillTimeOrinputWaitingTime;
+                endDelayTime -= attacInfo.nextSkillTimeOrInputWaitingTime;
             }
         }
 
