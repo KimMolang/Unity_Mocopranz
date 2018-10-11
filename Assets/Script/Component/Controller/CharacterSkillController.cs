@@ -104,7 +104,7 @@ public class CharacterSkillController : MonoBehaviour {
         {
             if(skillCheckInfo[0].state == SkillState.Available) // coolTimer[0] -1 일 경우 스킬 사용 가능 상태
             {
-                ObjectMgr.getInstance.CreateSkill("Skill_MeleeBase", this.gameObject);
+                ObjectMgr.instance.CreateSkill("Skill_MeleeBase", this.gameObject);
                 skillCheckInfo[0].state = SkillState.Working;
 
                 fsmPlyer.SetState(CharacterBasicState.Attack, CharacterAnimationState.Attack_ML);

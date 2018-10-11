@@ -178,7 +178,7 @@ public abstract class Skill : MonoBehaviour {
 
         // Attack box
         GameObject attackBox
-            = Instantiate(ObjectMgr.getInstance.GetCommonObject(ResourceInformation.Object.CommonObject.AttackBox)
+            = Instantiate(ObjectMgr.instance.GetCommonObject(ResourceInformation.Object.CommonObject.AttackBox)
                 , ownCharacter.transform.position
                 , ownCharacter.transform.rotation);
 
@@ -191,7 +191,7 @@ public abstract class Skill : MonoBehaviour {
 
         // Effect
         GameObject effect = (_attackInfo.effect == null)
-            ? Instantiate(ObjectMgr.getInstance.GetCommonEffect(_attackInfo.commonEffectIndex))
+            ? Instantiate(ObjectMgr.instance.GetCommonEffect(_attackInfo.commonEffectIndex))
             : _attackInfo.effect;
 
         effect.transform.position = ownCharacter.transform.position;

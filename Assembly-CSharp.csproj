@@ -65,7 +65,9 @@
      <Compile Include="Assets\Script\Header\CommonObject.cs" />
      <Compile Include="Assets\Script\Header\InputType.cs" />
      <Compile Include="Assets\Script\Header\ResourceList.cs" />
+     <Compile Include="Assets\Script\Mgr\Main.cs" />
      <Compile Include="Assets\Script\Mgr\ObjectMgr.cs" />
+     <Compile Include="Assets\Script\Mgr\SingletonBase.cs" />
      <Compile Include="Assets\Script\System\CSVRead.cs" />
      <Compile Include="Assets\Script\Tool_Character\DropdownCharacterList.cs" />
      <Compile Include="Assets\Script\Tool_Character\DropdownSkillList.cs" />

@@ -7,52 +7,21 @@ using CommonObjectName;
 using ResourceInformation;
 
 
-public class ObjectMgr : MonoBehaviour
+public class ObjectMgr : SingletonBase<ObjectMgr>
 {
     /*static*/ private GameObject[] commonObjectList;
     /*static*/ private GameObject[] commonEffectList;
     // (Need a modification) 공통 이펙트 말고 캐릭터별 이펙트는 어떡하지..?
 
-
-    private static ObjectMgr _instance;
-    public static ObjectMgr getInstance
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                GameObject inMapMgrs = GameObject.Find(CommonObjectName.Mgr.MGRS);
-
-                if (inMapMgrs == null)
-                {
-                    inMapMgrs = new GameObject();
-                    inMapMgrs.name = CommonObjectName.Mgr.MGRS;
-                }
-
-                _instance = inMapMgrs.GetComponent<ObjectMgr>();
-
-                if (_instance == null)
-                    _instance = inMapMgrs.AddComponent<ObjectMgr>();
-            }
-
-            return _instance;
-        }
-    }
-
-    void Awake()
+    protected ObjectMgr()
     {
         RoadCommonObject();
     }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    //void Awake()
+    //{
+    //    RoadCommonObject();
+    //}
 
     private void RoadCommonObject()
     {
@@ -104,7 +73,7 @@ public class ObjectMgr : MonoBehaviour
 
 
         GameObject binForCreatingSkill
-                = Instantiate(GetCommonObject(ResourceInformation.Object.CommonObject.Bin));
+                = UnityEngine.Object.Instantiate(GetCommonObject(ResourceInformation.Object.CommonObject.Bin));
 
 
         Skill componentSkill = null;
