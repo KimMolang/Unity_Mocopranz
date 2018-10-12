@@ -58,5 +58,19 @@ public class UIMgr_Tool_Skill : SingletonBase<UIMgr_Tool_Skill>
         // buttons
         buttons = new Button[(int)Buttons.MAX];
         buttons[(int)Buttons.Button_Save] = GameObject.Find("/2D/MainCanvas/UI_Tool/Button_BasicFunc/Button_Save").GetComponent<Button>();
+
+
+        AddListener();
+    }
+
+    private void AddListener()
+    {
+        dropdowns[(int)Dropdowns.Dropdown_SelectCharacter].onValueChanged.AddListener(
+            delegate { ChangeCharacter(dropdowns[(int)Dropdowns.Dropdown_SelectCharacter]); });
+    }
+
+    private void ChangeCharacter(Dropdown _self)
+    {
+        Debug.Log("_self.value : " + _self.value + " / text : " + _self.options[_self.value].text);
     }
 }
